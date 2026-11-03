@@ -1,0 +1,15 @@
+import '@testing-library/jest-dom/vitest';
+import { cleanup } from '@testing-library/react';
+import { afterEach } from 'vitest';
+import 'use-sync-external-store/shim/with-selector';
+
+afterEach(() => cleanup());
+
+// jsdom has no modal <dialog>; open and close toggle the attribute the browser would.
+HTMLDialogElement.prototype.showModal ??= function (this: HTMLDialogElement) {
+  this.open = true;
+};
+HTMLDialogElement.prototype.close ??= function (this: HTMLDialogElement) {
+  this.open = false;
+  this.dispatchEvent(new Event('close'));
+};

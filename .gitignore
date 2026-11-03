@@ -33,6 +33,7 @@ wheels/
 
 # Node & Frontend
 node_modules/
+dist/
 .next/
 out/
 .turbo/
@@ -58,7 +59,11 @@ pnpm-debug.log*
 *.swp
 *.swo
 
-# Local Scratches
+# Local Scratches & Build Tools
 scratch/
 tmp/
 *.log
+.run/
+.vercel/
+.superpowers/
+REQS.md

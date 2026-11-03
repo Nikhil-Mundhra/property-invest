@@ -1,0 +1,131 @@
+import { type Collection, ObjectId } from 'mongodb';
+import type { LlmProvider } from '@wealth-advisor/rules';
+import { DEFAULT_TENANT_ID, toDocumentId, toScopeId } from '#core/db/document-id.ts';
+import type { AdminSettingsRepository, ApiKeyRepository, TenantRepository } from '../../../application/ports.ts';
+import { type AdminSettingsDocument, ADMIN_SETTINGS_COLLECTION } from '../documents/admin-settings.document.ts';
+import { type ApiKeyDocument, API_KEYS_COLLECTION } from '../documents/api-key.document.ts';
+import { type TenantDocument, TENANTS_COLLECTION } from '../documents/tenant.document.ts';
+
+export class MongoTenantRepository implements TenantRepository {
+  private readonly col: () => Promise<Collection<TenantDocument>>;
+
+  constructor(col: () => Promise<Collection<TenantDocument>>) {
+    this.col = col;
+  }
+
+  async findAll(): Promise<TenantDocument[]> {
+    return (await this.col()).find({}).toArray();
+  }
+
+  async findById(id: string): Promise<TenantDocument | null> {
+    const tId = toScopeId(id, DEFAULT_TENANT_ID);
+    if (!tId) return null;
+    return (await this.col()).findOne({ _id: tId });
+  }
+
+  async findBySlug(slug: string): Promise<TenantDocument | null> {
+    return (await this.col()).findOne({ slug });
+  }
+
+  async create(tenant: Omit<TenantDocument, '_id'>): Promise<TenantDocument> {
+    const id = new ObjectId();
+    const doc: TenantDocument = { ...tenant, _id: id };
+    await (await this.col()).insertOne(doc as any);
+    return doc;
+  }
+}
+
+export class MongoApiKeyRepository implements ApiKeyRepository {
+  private readonly col: () => Promise<Collection<ApiKeyDocument>>;
+
+  constructor(col: () => Promise<Collection<ApiKeyDocument>>) {
+    this.col = col;
+  }
+
+  async findAll(): Promise<ApiKeyDocument[]> {
+    return (await this.col()).find({}).toArray();
+  }
+
+  async findByTenantId(tenantId: string): Promise<ApiKeyDocument[]> {
+    const tId = toScopeId(tenantId, DEFAULT_TENANT_ID);
+    if (!tId) return [];
+    return (await this.col()).find({ tenantId: tId }).toArray();
+  }
+
+  async findById(id: string): Promise<ApiKeyDocument | null> {
+    const docId = toDocumentId(id);
+    if (!docId) return null;
+    return (await this.col()).findOne({ _id: docId });
+  }
+
+  async findByKeyHash(keyHash: string): Promise<ApiKeyDocument | null> {
+    return (await this.col()).findOne({ keyHash });
+  }
+
+  async create(apiKey: Omit<ApiKeyDocument, '_id'>): Promise<ApiKeyDocument> {
+    const id = new ObjectId();
+    const doc: ApiKeyDocument = { ...apiKey, _id: id };
+    await (await this.col()).insertOne(doc as any);
+    return doc;
+  }
+
+  async revoke(id: string): Promise<boolean> {
+    const docId = toDocumentId(id);
+    if (!docId) return false;
+    const res = await (await this.col()).updateOne({ _id: docId }, { $set: { status: 'REVOKED' } });
+    return res.modifiedCount > 0;
+  }
+}
+
+export class MongoAdminSettingsRepository implements AdminSettingsRepository {
+  private readonly col: () => Promise<Collection<AdminSettingsDocument>>;
+
+  constructor(col: () => Promise<Collection<AdminSettingsDocument>>) {
+    this.col = col;
+  }
+
+  async getActiveLlmProvider(): Promise<LlmProvider> {
+    const doc = await (await this.col()).findOne({ key: 'platform_settings' });
+    return doc?.activeLlmProvider ?? 'mock';
+  }
+
+  async setActiveLlmProvider(provider: LlmProvider): Promise<void> {
+    await (await this.col()).updateOne(
+      { key: 'platform_settings' },
+      { $set: { activeLlmProvider: provider, updatedAt: new Date() } },
+      { upsert: true },
+    );
+  }
+
+  async getPlatformKeys() {
+    const doc = await (await this.col()).findOne({ key: 'platform_settings' });
+    return {
+      geminiApiKey: doc?.geminiApiKey ?? null,
+      openaiApiKey: doc?.openaiApiKey ?? null,
+      anthropicApiKey: doc?.anthropicApiKey ?? null,
+      openrouterApiKey: doc?.openrouterApiKey ?? null,
+      marketstackAccessKey: doc?.marketstackAccessKey ?? null,
+    };
+  }
+
+  async updatePlatformKeys(keys: {
+    geminiApiKey?: string | null;
+    openaiApiKey?: string | null;
+    anthropicApiKey?: string | null;
+    openrouterApiKey?: string | null;
+    marketstackAccessKey?: string | null;
+  }): Promise<void> {
+    const updateFields: Record<string, unknown> = { updatedAt: new Date() };
+    if (keys.geminiApiKey !== undefined) updateFields.geminiApiKey = keys.geminiApiKey;
+    if (keys.openaiApiKey !== undefined) updateFields.openaiApiKey = keys.openaiApiKey;
+    if (keys.anthropicApiKey !== undefined) updateFields.anthropicApiKey = keys.anthropicApiKey;
+    if (keys.openrouterApiKey !== undefined) updateFields.openrouterApiKey = keys.openrouterApiKey;
+    if (keys.marketstackAccessKey !== undefined) updateFields.marketstackAccessKey = keys.marketstackAccessKey;
+
+    await (await this.col()).updateOne(
+      { key: 'platform_settings' },
+      { $set: updateFields },
+      { upsert: true },
+    );
+  }
+}

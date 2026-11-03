@@ -1,0 +1,21 @@
+{
+  "name": "@wealth-advisor/contracts",
+  "private": true,
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "scripts": {
+    "typecheck": "tsc --noEmit"
+  },
+  "devDependencies": {
+    "typescript": "^5.9.3",
+    "zod": "^4.6.5"
+  },
+  "peerDependencies": {
+    "zod": "^4.0.0"
+  },
+  "dependencies": {
+    "@wealth-advisor/rules": "*"
+  }
+}

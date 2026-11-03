@@ -1,0 +1,47 @@
+// Public surface of the contracts package; consumers import only from here.
+export * from './common/error.contract.ts';
+export * from './fields/client-type.field.ts';
+export * from './fields/display-name.field.ts';
+export * from './fields/email.field.ts';
+export * from './fields/household-mode.field.ts';
+export * from './fields/password.field.ts';
+export * from './fields/refresh-token.field.ts';
+export * from './auth/signup.contract.ts';
+export * from './auth/login.contract.ts';
+export * from './auth/refresh.contract.ts';
+export * from './auth/logout.contract.ts';
+export * from './auth/token-pair.contract.ts';
+export * from './auth/me.contract.ts';
+export * from './fields/currency.field.ts';
+export * from './fields/iso-date.field.ts';
+export * from './fields/money.field.ts';
+export * from './events/market-data-refreshed.event.ts';
+export * from './market/quotes.contract.ts';
+export * from './market/fx-rates.contract.ts';
+export * from './market/refresh.contract.ts';
+export * from './analytics/snapshot.contract.ts';
+export * from './profiling/profile-answers.contract.ts';
+export * from './profiling/fundamental-ratios.contract.ts';
+export * from './tenant/tenant.contract.ts';
+export * from './tenant/api-key.contract.ts';
+export * from './admin/admin-settings.contract.ts';
+export * from './admin/admin-user.contract.ts';
+export * from './finance/account.contract.ts';
+export * from './finance/transaction.contract.ts';
+export * from './finance/cashflow.contract.ts';
+export * from './wealth/asset-product.contract.ts';
+export * from './wealth/portfolio.contract.ts';
+export * from './wealth/optimizer.contract.ts';
+export * from './wealth/portfolio-construction.contract.ts';
+export * from './wealth/sandbox-ledger.contract.ts';
+export * from './wealth/risk-profile.contract.ts';
+export * from './auth/passkey.contract.ts';
+export * from './advisory/advisory-chat.contract.ts';
+export * from './sharing/sharing.contract.ts';
+export * from './advisor/advisor-invite.contract.ts';
+
+// Real estate investment and acquisition contracts
+export * from './real-estate/property.contract.ts';
+export * from './real-estate/portfolio.contract.ts';
+export * from './real-estate/investor-profile.contract.ts';
+

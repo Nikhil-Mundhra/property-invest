@@ -1,0 +1,55 @@
+import type { Context, MiddlewareHandler } from 'hono';
+import {
+  AccountDto,
+  AccountListResponse,
+  CashflowQuery,
+  CashflowSummaryResponse,
+  CreateAccountRequest,
+  TransactionListResponse,
+} from '@wealth-advisor/contracts';
+import { type RouteDefinition, RouteBuilder } from '#core/http/route-builder.ts';
+import type { FinanceApi } from '../../finance.api.ts';
+
+export function financeRoutes(api: FinanceApi, auth: MiddlewareHandler, writeAuth: MiddlewareHandler): readonly RouteDefinition[] {
+  const guard = [auth];
+  const scope = (c: Context) => {
+    const { tenantId, userId } = c.get('principal');
+    return { tenantId, userId };
+  };
+
+  return [
+    RouteBuilder.get('/accounts')
+      .use(...guard)
+      .responds(AccountListResponse)
+      .handle(async ({ c }) => {
+        const { tenantId, userId } = scope(c);
+        return api.getAccounts(tenantId, userId);
+      }),
+
+    RouteBuilder.post('/accounts')
+      .use(writeAuth)
+      .body(CreateAccountRequest)
+      .responds(AccountDto, 201)
+      .handle(async ({ c, body }) => {
+        const { tenantId, userId } = scope(c);
+        return api.createAccount(tenantId, userId, body);
+      }),
+
+    RouteBuilder.get('/transactions')
+      .use(...guard)
+      .responds(TransactionListResponse)
+      .handle(async ({ c }) => {
+        const { tenantId, userId } = scope(c);
+        return api.getTransactions(tenantId, userId);
+      }),
+
+    RouteBuilder.get('/cashflow')
+      .use(...guard)
+      .query(CashflowQuery)
+      .responds(CashflowSummaryResponse)
+      .handle(async ({ c, query }) => {
+        const { tenantId, userId } = scope(c);
+        return api.getCashflowSummary(tenantId, userId, query.householdMode);
+      }),
+  ];
+}

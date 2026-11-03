@@ -1,0 +1,71 @@
+import type { UseCase } from '#core/application/use-case.ts';
+import { DEFAULT_TENANT_ID } from '#core/db/document-id.ts';
+import type { IdGenerator } from '#core/domain/id-generator.ts';
+import type { EventBus } from '#core/events/event-bus.ts';
+import type { Clock } from '#core/time/clock.ts';
+import { User } from '../../domain/entities/user.entity.ts';
+import { AuthErrors } from '../../domain/errors/auth-errors.ts';
+import { userSignedUp } from '../../domain/events/user-signed-up.event.ts';
+import { assertPasswordAllowed } from '../../domain/policies/password.policy.ts';
+import { Email } from '../../domain/value-objects/email.vo.ts';
+import type { SignupCommand } from '../dto/signup.command.ts';
+import type { SignupResult } from '../dto/signup.result.ts';
+import type { PasswordHasherPort } from '../ports/password-hasher.port.ts';
+import type { UserRepositoryPort } from '../ports/user-repository.port.ts';
+
+interface SignupDeps {
+  readonly users: UserRepositoryPort;
+  readonly hasher: PasswordHasherPort;
+  readonly ids: IdGenerator;
+  readonly clock: Clock;
+  readonly events: EventBus;
+}
+
+// Creates an email+password account. The pre-check gives a fast 409; the unique index is the real guard
+// when two signups for the same email race.
+export class SignupUseCase implements UseCase<SignupCommand, SignupResult> {
+  private readonly deps: SignupDeps;
+
+  constructor(deps: SignupDeps) {
+    this.deps = deps;
+  }
+
+  async execute(command: SignupCommand): Promise<SignupResult> {
+    const { users, hasher, ids, clock, events } = this.deps;
+    const email = Email.of(command.email);
+    assertPasswordAllowed(command.password);
+    if (await users.findActiveByProvider('EMAIL', email.value)) throw AuthErrors.emailTaken();
+
+    let advisorId: string | null = null;
+    if (command.advisorCode && command.advisorCode.trim().length > 0) {
+      const rawCode = command.advisorCode.trim();
+      const candidateId = rawCode.startsWith('ADV-') ? rawCode.slice(4) : rawCode;
+      const advisor = candidateId.includes('@')
+        ? await users.findActiveByProvider('EMAIL', candidateId)
+        : await users.findActiveById(candidateId);
+      if (advisor && (advisor.roles.includes('ADVISOR') || advisor.roles.includes('ADMIN'))) {
+        advisorId = advisor.id;
+      }
+    }
+
+    // Public signup always issues the base role; elevated roles are granted through the admin console only.
+    const roles = ['USER'] as const;
+    const now = clock.now();
+
+    const user = User.registerWithEmail({
+      id: ids.next(),
+      // Signup provisions no tenant of its own, so the account joins the one tenant the deployment runs.
+      tenantId: DEFAULT_TENANT_ID,
+      advisorId,
+      roles: [...roles],
+      email,
+      passwordHash: await hasher.hash(command.password),
+      displayName: command.displayName,
+      now,
+    });
+    if ((await users.insert(user)) === 'DUPLICATE_IDENTITY') throw AuthErrors.emailTaken();
+
+    await events.publish(userSignedUp(user.id, now));
+    return { userId: user.id };
+  }
+}

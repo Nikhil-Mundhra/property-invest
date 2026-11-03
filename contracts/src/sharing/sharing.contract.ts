@@ -1,0 +1,72 @@
+import { z } from 'zod';
+import { DisplayNameField } from '../fields/display-name.field.ts';
+
+export const PlanSnapshotDto = z.object({
+  recommendedWeights: z.record(z.string(), z.number()),
+  currentWeights: z.record(z.string(), z.number()),
+  threePillarRationale: z.object({
+    personalFinance: z.string(),
+    crossBorder: z.string(),
+    wealthStrategy: z.string(),
+  }),
+  // null until a stress-test engine exists.
+  stressTestScenario: z
+    .object({
+      fxShockPercent: z.number(),
+      estimatedDrawdownPercent: z.number(),
+    })
+    .nullable(),
+});
+export type PlanSnapshotDto = z.infer<typeof PlanSnapshotDto>;
+
+export const CreateShareLinkRequest = z.object({
+  privacyMasked: z.boolean().default(true),
+  ttlHours: z.number().int().positive().max(720).default(72),
+  ownerDisplayName: DisplayNameField.optional(),
+  // Another user's plan, accepted only from an advisor or admin caller.
+  clientId: z.string().optional(),
+});
+export type CreateShareLinkRequest = z.infer<typeof CreateShareLinkRequest>;
+
+export const CreateShareLinkResponse = z.object({
+  shareToken: z.string(),
+  url: z.string(),
+  expiresAt: z.string(),
+});
+export type CreateShareLinkResponse = z.infer<typeof CreateShareLinkResponse>;
+
+export const SharedPlanResponse = z.object({
+  shareToken: z.string(),
+  ownerDisplayName: z.string(),
+  privacyMasked: z.boolean(),
+  planSnapshot: PlanSnapshotDto,
+  expiresAt: z.string(),
+  createdAt: z.string(),
+});
+export type SharedPlanResponse = z.infer<typeof SharedPlanResponse>;
+
+export const ListSharedPlansQuery = z.object({
+  clientId: z.string().optional(),
+});
+export type ListSharedPlansQuery = z.infer<typeof ListSharedPlansQuery>;
+
+export const SharedPlanSummaryItem = z.object({
+  shareToken: z.string(),
+  ownerDisplayName: z.string(),
+  privacyMasked: z.boolean(),
+  expiresAt: z.string(),
+  createdAt: z.string(),
+  revokedAt: z.string().nullable(),
+});
+export type SharedPlanSummaryItem = z.infer<typeof SharedPlanSummaryItem>;
+
+export const ListSharedPlansResponse = z.object({
+  plans: z.array(SharedPlanSummaryItem),
+});
+export type ListSharedPlansResponse = z.infer<typeof ListSharedPlansResponse>;
+
+export const RevokeShareLinkResponse = z.object({
+  revoked: z.boolean(),
+  shareToken: z.string(),
+});
+export type RevokeShareLinkResponse = z.infer<typeof RevokeShareLinkResponse>;

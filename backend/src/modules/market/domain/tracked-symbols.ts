@@ -1,0 +1,30 @@
+import { type AssetClass, CURRENCIES, type Currency } from '@wealth-advisor/rules';
+
+export interface TrackedSymbol {
+  readonly symbol: string;
+  readonly assetClass: AssetClass;
+}
+
+// US-listed ETFs, one or two per asset class, all priced in USD. Six symbols fit one Marketstack page per
+// ~160 trading days, so a one-year backfill costs two requests and a daily refresh one. NSE/DFM single names and
+// bond/sukuk identifiers stay untracked: their Marketstack coverage is unverified, so the institutional catalog
+// prices them by reference (face value + evaluated yield) instead of the snapshot path.
+export const TRACKED_SYMBOLS: readonly TrackedSymbol[] = [
+  { symbol: 'VT', assetClass: 'EQUITY_GLOBAL' },
+  { symbol: 'VOO', assetClass: 'EQUITY_US' },
+  { symbol: 'IEF', assetClass: 'FIXED_INCOME_GOV' },
+  { symbol: 'SHY', assetClass: 'FIXED_INCOME_GOV' },
+  { symbol: 'SHV', assetClass: 'MONEY_MARKET' },
+  { symbol: 'UUP', assetClass: 'FX_HEDGE' },
+];
+
+export const TRACKED_SYMBOL_NAMES: readonly string[] = TRACKED_SYMBOLS.map((tracked) => tracked.symbol);
+
+// The ECB publishes every reference rate against EUR; other pairs are crossed through it.
+export const FX_BASE: Currency = 'EUR';
+// Frankfurter v1's ECB currency list omits AED.
+export const FX_QUOTES: readonly Currency[] = CURRENCIES.filter((currency) => currency !== FX_BASE && currency !== 'AED');
+
+export function assetClassOf(symbol: string): AssetClass | null {
+  return TRACKED_SYMBOLS.find((tracked) => tracked.symbol === symbol)?.assetClass ?? null;
+}
