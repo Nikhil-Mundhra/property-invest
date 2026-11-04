@@ -47,6 +47,9 @@ contracts/src/market/quotes.contract.ts : latest quotes response (asOf, symbol, 
 contracts/src/market/refresh.contract.ts : refresh response (asOf, prices and rates stored, requested from..to)
 contracts/src/profiling/fundamental-ratios.contract.ts : AssetFundamentalMetricsSchema and FundamentalEvaluationSchema
 contracts/src/profiling/profile-answers.contract.ts : ProfilingAnswersSchema (7 questions) and ProfileSummarySchema
+contracts/src/real-estate/investor-profile.contract.ts : real estate investor residency, age, and motivation contracts
+contracts/src/real-estate/portfolio.contract.ts : real estate portfolio summary and state contracts
+contracts/src/real-estate/property.contract.ts : PropertyItem, CreatePropertyInput, UpdatePropertyInput, and PropertyList/Response contracts
 contracts/src/sharing/sharing.contract.ts : shareable plan creation (optional owner display name), snapshot (stress scenario nullable), and token contracts
 contracts/src/tenant/api-key.contract.ts : tenant API keys list, create, and revoke contracts
 contracts/src/tenant/tenant.contract.ts : tenant settings and onboarding contracts

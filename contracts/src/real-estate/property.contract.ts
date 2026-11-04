@@ -56,3 +56,22 @@ export type PropertyItem = z.infer<typeof PropertyItemSchema>;
 
 export const CreatePropertyInputSchema = PropertyItemSchema.omit({ id: true, createdAt: true });
 export type CreatePropertyInput = z.infer<typeof CreatePropertyInputSchema>;
+
+export const UpdatePropertyInputSchema = CreatePropertyInputSchema.partial();
+export type UpdatePropertyInput = z.infer<typeof UpdatePropertyInputSchema>;
+
+export const PropertyListResponse = z.object({
+  properties: z.array(PropertyItemSchema),
+});
+export type PropertyListResponse = z.infer<typeof PropertyListResponse>;
+
+export const PropertyResponse = z.object({
+  property: PropertyItemSchema,
+});
+export type PropertyResponse = z.infer<typeof PropertyResponse>;
+
+export const DeletePropertyResponse = z.object({
+  success: z.boolean(),
+  id: z.string(),
+});
+export type DeletePropertyResponse = z.infer<typeof DeletePropertyResponse>;

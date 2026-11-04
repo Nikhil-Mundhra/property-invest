@@ -124,6 +124,9 @@ backend/src/modules/market/infrastructure/providers/provider-call.ts : provider 
 backend/src/modules/market/market.api.ts : createMarketApi: refresh, quotes, history, rates, convert orchestrators
 backend/src/modules/market/market.module.ts : composition root: store-selected repositories, provider adapters, request budget → api, routes, manifest
 backend/src/modules/market/public.ts : the market surface other modules may import (api type, domain types, tracked symbols)
+backend/src/modules/properties/properties.api.ts : createPropertiesApi: list, get, create, update, delete, reset properties
+backend/src/modules/properties/properties.module.ts : composition root: store-selected properties repo → api, routes, manifest
+backend/src/modules/properties/public.ts : the properties surface other modules may import
 backend/src/modules/sharing/application/ports.ts : SharedPlanRepository port
 backend/src/modules/sharing/public.ts : the sharing surface other modules may import
 backend/src/modules/sharing/sharing.api.ts : createSharingApi: share link creation with TTL and a snapshot of the caller's wealth proposal, masked public plan resolution

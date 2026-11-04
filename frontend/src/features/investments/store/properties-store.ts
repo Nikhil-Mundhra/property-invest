@@ -12,6 +12,7 @@ import {
   checkGoldenVisaEligibility,
 } from '@wealth-advisor/rules';
 import { SEEDED_PROPERTIES } from '../data/seed-properties.ts';
+import { propertiesApi } from '../api/properties-api.ts';
 
 const STORAGE_KEY = 'syntropy_real_estate_properties_v1';
 
@@ -34,6 +35,7 @@ function loadInitialProperties(): PropertyItem[] {
 
 let propertiesState: PropertyItem[] = loadInitialProperties();
 const listeners = new Set<() => void>();
+let isSyncing = false;
 
 function persistAndNotify(): void {
   if (typeof window !== 'undefined' && window.localStorage) {
@@ -44,6 +46,30 @@ function persistAndNotify(): void {
     }
   }
   listeners.forEach((listener) => listener());
+}
+
+export async function syncPropertiesWithServer(): Promise<PropertyItem[]> {
+  if (isSyncing) return propertiesState;
+  isSyncing = true;
+  try {
+    const serverProps = await propertiesApi.getProperties();
+    if (Array.isArray(serverProps) && serverProps.length > 0) {
+      propertiesState = serverProps;
+      persistAndNotify();
+    }
+  } catch {
+    // Retain local state on network / offline error
+  } finally {
+    isSyncing = false;
+  }
+  return propertiesState;
+}
+
+// Automatically sync with backend in browser runtime
+if (typeof window !== 'undefined' && typeof window.addEventListener === 'function') {
+  setTimeout(() => {
+    syncPropertiesWithServer();
+  }, 100);
 }
 
 export function subscribeProperties(listener: () => void): () => void {
@@ -67,24 +93,51 @@ export function useProperty(id: string): PropertyItem | undefined {
 }
 
 export function addProperty(input: CreatePropertyInput): PropertyItem {
+  const temporaryId = `prop-${Date.now()}-${Math.random().toString(36).slice(2, 6)}`;
   const newProperty: PropertyItem = {
     ...input,
-    id: `prop-${Date.now()}-${Math.random().toString(36).slice(2, 6)}`,
+    id: temporaryId,
     createdAt: new Date().toISOString(),
   };
   propertiesState = [newProperty, ...propertiesState];
   persistAndNotify();
+
+  // Asynchronously persist to backend PostgreSQL database
+  propertiesApi.createProperty(input).then((saved) => {
+    if (saved && saved.id !== temporaryId) {
+      propertiesState = propertiesState.map((p) => (p.id === temporaryId ? saved : p));
+      persistAndNotify();
+    }
+  }).catch(() => {
+    // Local state remains available
+  });
+
   return newProperty;
 }
 
 export function deleteProperty(id: string): void {
   propertiesState = propertiesState.filter((p) => p.id !== id);
   persistAndNotify();
+
+  // Asynchronously delete from backend
+  propertiesApi.deleteProperty(id).catch(() => {
+    // Local state already updated
+  });
 }
 
 export function resetToSeedProperties(): void {
   propertiesState = [...SEEDED_PROPERTIES];
   persistAndNotify();
+
+  // Asynchronously reset on backend
+  propertiesApi.resetProperties().then((seeds) => {
+    if (Array.isArray(seeds) && seeds.length > 0) {
+      propertiesState = seeds;
+      persistAndNotify();
+    }
+  }).catch(() => {
+    // Local seeds remain
+  });
 }
 
 export function calculatePortfolioSummary(properties: PropertyItem[]): RealEstatePortfolioSummary {

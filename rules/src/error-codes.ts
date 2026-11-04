@@ -10,6 +10,7 @@ export const ERROR_CODE_PREFIXES = {
   wealth: 'WL',
   advisory: 'AV',
   sharing: 'SH',
+  properties: 'PR',
 } as const;
 
 export const CORE_ERROR_CODES = {
@@ -90,6 +91,11 @@ export const SHARING_ERROR_CODES = {
   invariantViolated: 'SH_1900',
 } as const;
 
+export const PROPERTIES_ERROR_CODES = {
+  propertyNotFound: 'PR_1001',
+  invariantViolated: 'PR_1900',
+} as const;
+
 export type CoreErrorCode = (typeof CORE_ERROR_CODES)[keyof typeof CORE_ERROR_CODES];
 export type AuthErrorCode = (typeof AUTH_ERROR_CODES)[keyof typeof AUTH_ERROR_CODES];
 export type MarketErrorCode = (typeof MARKET_ERROR_CODES)[keyof typeof MARKET_ERROR_CODES];
@@ -99,6 +105,7 @@ export type FinanceErrorCode = (typeof FINANCE_ERROR_CODES)[keyof typeof FINANCE
 export type WealthErrorCode = (typeof WEALTH_ERROR_CODES)[keyof typeof WEALTH_ERROR_CODES];
 export type AdvisoryErrorCode = (typeof ADVISORY_ERROR_CODES)[keyof typeof ADVISORY_ERROR_CODES];
 export type SharingErrorCode = (typeof SHARING_ERROR_CODES)[keyof typeof SHARING_ERROR_CODES];
+export type PropertiesErrorCode = (typeof PROPERTIES_ERROR_CODES)[keyof typeof PROPERTIES_ERROR_CODES];
 export type ErrorCode =
   | CoreErrorCode
   | AuthErrorCode
@@ -108,4 +115,5 @@ export type ErrorCode =
   | FinanceErrorCode
   | WealthErrorCode
   | AdvisoryErrorCode
-  | SharingErrorCode;
+  | SharingErrorCode
+  | PropertiesErrorCode;

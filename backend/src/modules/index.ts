@@ -16,6 +16,7 @@ import { createAuthModule } from './auth/auth.module.ts';
 import { createAdvisoryModule } from './advisory/advisory.module.ts';
 import { createFinanceModule } from './finance/finance.module.ts';
 import { createMarketModule } from './market/market.module.ts';
+import { createPropertiesModule } from './properties/properties.module.ts';
 import { createSharingModule } from './sharing/sharing.module.ts';
 import { createWealthModule } from './wealth/wealth.module.ts';
 
@@ -93,6 +94,7 @@ export function buildModules(context: ModuleContext): ModuleManifest[] {
     auth: auth.optionalAuthGuard,
   });
   const sharing = createSharingModule(context, { wealth: wealth.api, writeAuth: auth.authGuard });
+  const properties = createPropertiesModule(context, { auth: auth.optionalAuthGuard });
 
   return [
     auth.manifest,
@@ -103,6 +105,7 @@ export function buildModules(context: ModuleContext): ModuleManifest[] {
     wealth.manifest,
     advisory.manifest,
     sharing.manifest,
+    properties.manifest,
   ];
 }
 

@@ -8,6 +8,7 @@ contracts/docs/apis/auth.md : /api/auth/* routes: signup, login, refresh, logout
 contracts/docs/apis/core.md : /api/health, /api/ai and the /api/* 404 fallback
 contracts/docs/apis/finance.md : /api/finance/* routes: accounts, transactions, cashflow
 contracts/docs/apis/market.md : /api/market/* routes: quotes, fx, refresh
+contracts/docs/apis/properties.md : /api/properties/* routes: list, create, get, update, delete, reset
 contracts/docs/apis/sharing.md : /api/sharing/* routes: create, shared plan by token
 contracts/docs/apis/wealth.md : /api/wealth/* routes: products, portfolio, optimize, execute, ledger
 ```

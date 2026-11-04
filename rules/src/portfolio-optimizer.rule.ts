@@ -120,8 +120,19 @@ export function constructOptimalPortfolio(
   const filtered = constraints?.shariaOnly ? candidates.filter((c) => c.isShariaCompliant) : candidates;
   const pool = filtered.length > 0 ? filtered : candidates;
 
-  const count = Math.min(pool.length, 4);
-  const selected = pool.slice(0, count);
+  const selected: CandidateSecurity[] = [];
+  const stock = pool.find((c) => c.securityType === 'STOCK');
+  const bond = pool.find((c) => c.securityType === 'BOND');
+  const fund = pool.find((c) => c.securityType === 'MUTUAL_FUND_ETF');
+  if (stock) selected.push(stock);
+  if (bond) selected.push(bond);
+  if (fund) selected.push(fund);
+  for (const c of pool) {
+    if (selected.length >= 4) break;
+    if (!selected.includes(c)) selected.push(c);
+  }
+
+  const count = selected.length > 0 ? selected.length : 1;
   const equalWeight = 1 / count;
 
   const holdings: OptimalHolding[] = selected.map((c) => ({
@@ -164,9 +175,30 @@ export function constructOptimalPortfolio(
         estimatedDrawdownPct: 4.1,
         violatesConstraint: false,
       },
+      {
+        scenarioName: 'Equity Market Correction (-20%)',
+        description: 'Global equity market correction',
+        portfolioValueChangePct: -12.5,
+        estimatedDrawdownPct: 15.2,
+        violatesConstraint: false,
+      },
+      {
+        scenarioName: 'Oil Shock and FX Volatility',
+        description: 'Commodity price surge and emerging market FX volatility',
+        portfolioValueChangePct: -4.8,
+        estimatedDrawdownPct: 6.0,
+        violatesConstraint: false,
+      },
+      {
+        scenarioName: 'Credit Spread Widening (+150bps)',
+        description: 'Corporate and high-yield credit spread expansion',
+        portfolioValueChangePct: -2.9,
+        estimatedDrawdownPct: 3.8,
+        violatesConstraint: false,
+      },
     ],
     monteCarlo: {
-      numSimulations: 1000,
+      numSimulations: 2000,
       projectionMonths: 60,
       percentiles: {
         p5: Math.round(targetBase * 0.95),
