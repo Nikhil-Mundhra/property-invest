@@ -12,17 +12,18 @@ env/
 venv/
 .venv/
 ENV/
-build/
+# Python virtual environments & build
+/build/
 develop-eggs/
 dist/
 downloads/
 eggs/
 .eggs/
-lib/
-lib64/
-parts/
+/lib/
+/lib64/
+/parts/
 sdist/
-var/
+/var/
 wheels/
 *.egg-info/
 .installed.cfg
@@ -66,4 +67,3 @@ tmp/
 .run/
 .vercel/
 .superpowers/
-REQS.md
