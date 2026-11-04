@@ -1,6 +1,6 @@
 # Sync docs
 
-last synced: e9f6898
+last synced: 7560e86
 
 ## Calls
 - `agents/docs/writing.md` : map and doc format; the rules every changed doc must still meet

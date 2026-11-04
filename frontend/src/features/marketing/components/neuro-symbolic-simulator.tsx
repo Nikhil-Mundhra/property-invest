@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { AlertCircle, AlertTriangle, ArrowRight, Bot, CheckCircle2, ChevronRight, Cpu, HelpCircle, Layers, RefreshCcw, ShieldCheck, Sparkles, TrendingUp, XCircle } from 'lucide-react';
+import { AlertCircle, AlertTriangle, ArrowRight, Bot, Building2, CheckCircle2, ChevronRight, Cpu, HelpCircle, Layers, RefreshCcw, Scale, ShieldCheck, Sparkles, TrendingUp, XCircle } from 'lucide-react';
 
 interface Scenario {
   id: string;
@@ -23,221 +23,217 @@ interface Scenario {
 
 const SCENARIOS: Scenario[] = [
   {
-    id: 'income-shock',
-    title: 'Scenario 1: Sudden Income Shock',
-    category: 'Consumption Smoothing',
-    userPrompt: '"I unexpectedly lost my job this morning. How much should I cut my monthly spending?"',
+    id: 'golden-visa',
+    title: 'Scenario 1: 2026 Golden Visa Eligibility',
+    category: 'DLD Golden Visa',
+    userPrompt: '"I am purchasing a 2-bedroom in Sobha Hartland for AED 2,200,000 with an AED 1,000,000 bank mortgage. Do I qualify for the 10-year UAE Golden Visa?"',
     rawLLM: {
-      title: 'Catastrophic Spending Cut (Panic Heuristic)',
+      title: 'Erroneous Rejection (Outdated Heuristic)',
       description:
-        'Slashing spending by 70% immediately, cancelling all recurring commitments, and recommending liquidating stock holdings to prevent further market risk.',
-      flaw: 'Completely ignores client’s existing 6-month liquid buffer. Induces unnecessary panic and forfeits equity recovery.',
-      metric: '−70% lifestyle drop · 0% buffer utilization',
+        'Hallucinates that the investor must pay AED 2,000,000 in liquid unencumbered cash upfront, rejecting mortgaged properties or demanding 50% paid equity.',
+      flaw: 'Relies on pre-2024 regulations. Misses the 20 February 2026 DLD circular abolishing the minimum paid-up equity requirement on mortgaged purchases.',
+      metric: 'False Negative · Lost AED 2.2M Transaction',
     },
     neuroSymbolic: {
-      title: 'Deterministic Consumption Smoothing (Life-Cycle Model)',
+      title: 'Qualified under 2026 DLD Circular',
       description:
-        'Identifies €24,000 liquid cash reserves (7.5 months runway). Recommends drawing down €2,800/month from money market buffers while keeping equity allocation untouched.',
-      middleware: 'Injected liquid reserves, burn rate & employment duration priors.',
-      quantSolver: 'Life-cycle consumption Euler equation solver.',
-      metric: '0% equity liquidation · Preserves compounding',
+        'Direct qualification verified. Title Deed / Oqood certified purchase value of AED 2,200,000 satisfies the AED 2,000,000 threshold. Bank NOC verified with standard down payment. DLD Cube fee: AED 9,884.75.',
+      middleware: 'Extracted property valuation, mortgage structure, and certified Title Deed priors.',
+      quantSolver: 'uae-golden-visa.rule.ts statutory engine.',
+      metric: '100% Statutory Match · 10-Year Visa Secured',
     },
   },
   {
-    id: 'demographic-bias',
-    title: 'Scenario 2: Vague Query & Demographic Bias',
-    category: 'MIT Literacy Gap',
-    userPrompt: '"Hi, I have about $150 to invest each month. What should I put it in?"',
+    id: 'off-plan-mortgage',
+    title: 'Scenario 2: CBUAE Off-Plan Mortgage Borrowing',
+    category: 'CBUAE Circular 31/2013',
+    userPrompt: '"Can I obtain an 80% bank mortgage for a luxury villa in Palm Jebel Ali under construction?"',
     rawLLM: {
-      title: 'Overly Conservative Stereotyped Allocation',
+      title: 'Over-Leveraged Borrowing Advice',
       description:
-        'Recommends putting 40% into high-yield savings, 30% into short-term bonds, and 30% into low-volatility mutual funds due to conversational phrasing.',
-      flaw: 'MIT Sloan Benchmark: Less structured, non-academic prompts trigger demographic bias, producing 4% to 6% less wealth at retirement ($50k to $100k loss).',
-      metric: '−$78,000 projected terminal retirement wealth',
+        'Advises that UAE resident expats can borrow up to 80% LTV for properties under AED 5,000,000, completely ignoring off-plan statutory lending restrictions.',
+      flaw: 'Critical regulatory breach. Violates Central Bank Circular No. 31/2013 Article 3, which caps off-plan residential mortgage lending at 50% flat LTV.',
+      metric: 'AED 1,500,000 Cash Shortfall at Registration',
     },
     neuroSymbolic: {
-      title: 'Standardized Objective Utility Optimization',
+      title: 'Strict 50% Off-Plan Statutory Cap Enforced',
       description:
-        'Middleware intercepts query, removes non-financial demographic cues, and pulls user’s 32-year investment horizon: allocates 90% Global Low-Cost Equity Index.',
-      middleware: 'Translated vague text into an "Academic-Grade Prompt" with CRRA utility function.',
-      quantSolver: 'Mean-Variance & Glide-Path deterministic optimizer.',
-      metric: '+$84,200 additional wealth · 0% demographic penalty',
+        'Caps mortgage borrowing at 50% flat LTV (AED 2,500,000 maximum on AED 5,000,000 valuation). Computes exact liquid cash needed: 50% down payment + 4% DLD fee + AED 1,000 Oqood registration.',
+      middleware: 'Injected property development status (Off-Plan) and borrower residency.',
+      quantSolver: 'uae-mortgage.rule.ts statutory engine.',
+      metric: 'Zero Default Risk · Fiduciary Down Payment Plan',
     },
   },
   {
-    id: 'portfolio-drift',
-    title: 'Scenario 3: Market Rally & Portfolio Drift',
-    category: 'Active Rebalancing',
-    userPrompt: '"My US Tech stock portfolio gained 30% this year. Should I change anything?"',
+    id: 'developer-friction',
+    title: 'Scenario 3: Direct Developer vs Resale Cash Friction',
+    category: 'DLD Acquisition Fees',
+    userPrompt: '"What are my exact closing costs for buying directly from Emaar in Dubai Hills vs buying a ready resale unit?"',
     rawLLM: {
-      title: 'Passive Drift Congratulation',
+      title: 'Vague 5% to 7% Heuristic Rule-of-Thumb',
       description:
-        '"Congratulations on your gains! Tech momentum is very strong right now, so holding your winners is a great way to let your capital grow."',
-      flaw: 'Allows portfolio equity weight to drift unchecked from 50% target to 68%, dangerously exposing client to severe correction risk.',
-      metric: 'Unchecked +18% drift above risk tolerance',
+        'Quotes an approximate 6% closing cost estimate, adding a phantom 2% buyer broker commission on a direct developer purchase and misquoting trustee administrative charges.',
+      flaw: 'Generic closing cost estimates fail to account for 0% buyer commission on developer off-plan, trustee fee exemptions, or exact DLD administrative fees.',
+      metric: 'AED 54,000 Miscalculation on AED 2.7M Purchase',
     },
     neuroSymbolic: {
-      title: 'Automated ±5% Boundary Rebalancing Trigger',
+      title: 'Itemized Statutory Cost Schedules',
       description:
-        'Detects US Equities have exceeded the 50% target by +18%. Solves trade batch to trim 18% into Money Market and Fixed Income, staging custodial rebalance tickets.',
-      middleware: 'Pulls current vs target weights from Client Knowledge Graph.',
-      quantSolver: 'Deterministic cashflow & tax-aware rebalancing engine.',
-      metric: 'Locks in gains · Restores risk boundary to 0% drift',
+        'Developer direct: 4% DLD (AED 108,000) + AED 580 admin, 0% buyer broker fee, AED 1,000 Oqood registration (AED 109,580 total). Secondary resale: 4% DLD + 2% broker + 5% VAT + AED 4,200 trustee (AED 168,880 total).',
+      middleware: 'Categorized transaction type (Direct Developer vs Secondary Resale).',
+      quantSolver: 'uae-property-fees.rule.ts statutory engine.',
+      metric: 'Exact Dirham Accuracy · Clear AED 59,300 Savings',
     },
   },
 ];
 
 export function NeuroSymbolicSimulator() {
-  const [selectedScenario, setSelectedScenario] = useState<Scenario>(SCENARIOS[0]);
+  const [selectedScenarioId, setSelectedScenarioId] = useState(SCENARIOS[0].id);
+  const scenario = SCENARIOS.find((s) => s.id === selectedScenarioId) ?? SCENARIOS[0];
 
   return (
-    <section id="simulator" className="py-20 sm:py-28 bg-surface-subtle/40 border-b border-line">
+    <section id="simulator" className="py-20 sm:py-28 bg-surface border-b border-line">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div className="text-center max-w-3xl mx-auto">
+        <div className="max-w-3xl">
           <div className="inline-flex items-center gap-2 rounded-control border border-brand-600/20 bg-brand-50 px-3 py-1 text-xs font-bold uppercase tracking-wider text-brand-700 dark:bg-brand-950 dark:text-brand-600">
             <Cpu className="size-3.5" />
-            <span>Illustrative Benchmark Simulator</span>
+            <span>Interactive Simulator</span>
           </div>
+
           <h2 className="mt-4 font-display text-3xl font-semibold tracking-tight text-ink sm:text-4xl lg:text-5xl">
-            See the Neuro-Symbolic Difference in Action
+            Experience the Deterministic Underwriting Difference
           </h2>
+
           <p className="mt-4 text-base leading-relaxed text-muted sm:text-lg">
-            Compare side-by-side how a standalone foundation LLM responds to high-stakes wealth events versus
-            our hybrid architecture pairing Academic Prompt Middleware with deterministic quant solvers from the rules kernel.
+            Compare side-by-side how unconstrained conversational LLMs produce costly hallucinations, while
+            Syntropy's deterministic statutory engines deliver mathematical precision grounded in official UAE law.
           </p>
         </div>
 
-        {/* Scenario Selector Tabs */}
-        <div className="mt-10 flex flex-wrap justify-center gap-3">
-          {SCENARIOS.map((scenario) => {
-            const isSelected = selectedScenario.id === scenario.id;
+        {/* Scenario Selection Tabs */}
+        <div className="mt-10 flex flex-wrap gap-2 border-b border-line pb-4">
+          {SCENARIOS.map((s) => {
+            const isSelected = s.id === scenario.id;
             return (
               <button
-                key={scenario.id}
+                key={s.id}
                 type="button"
-                onClick={() => setSelectedScenario(scenario)}
-                className={`flex items-center gap-2 rounded-control px-4 py-2 text-xs sm:text-sm font-semibold transition-all cursor-pointer ${
+                onClick={() => setSelectedScenarioId(s.id)}
+                className={`inline-flex items-center gap-2 rounded-field px-4 py-2 text-xs font-semibold transition cursor-pointer ${
                   isSelected
                     ? 'bg-brand-600 text-white shadow-xs dark:text-brand-950'
-                    : 'bg-surface border border-line text-muted hover:text-ink hover:bg-surface-subtle'
+                    : 'bg-surface-subtle text-muted hover:text-ink hover:bg-surface border border-line'
                 }`}
               >
-                <span>{scenario.title}</span>
-                <span className={`text-[10px] rounded-control px-1.5 py-0.5 ${isSelected ? 'bg-white/20' : 'bg-surface-subtle text-subtle'}`}>
-                  {scenario.category}
+                <span>{s.title}</span>
+                <span className={`rounded-full px-1.5 py-0.2 text-[10px] ${isSelected ? 'bg-white/20 text-white dark:text-brand-950' : 'bg-line text-subtle'}`}>
+                  {s.category}
                 </span>
               </button>
             );
           })}
         </div>
 
-        {/* User Prompt Banner */}
-        <div className="mt-8 mx-auto max-w-3xl rounded-xl border border-line bg-surface p-4 text-center shadow-xs">
-          <p className="text-xs font-semibold uppercase tracking-wider text-subtle">Simulated User Input</p>
-          <p className="mt-1 font-display text-base sm:text-lg font-medium text-ink italic">
-            {selectedScenario.userPrompt}
+        {/* User Prompt Box */}
+        <div className="mt-6 rounded-card border border-line bg-surface-subtle p-5">
+          <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-subtle">
+            <Bot className="size-4 text-brand-600" />
+            <span>Simulated Investor Inquiry</span>
+          </div>
+          <p className="mt-2 font-mono text-sm text-ink italic sm:text-base">
+            {scenario.userPrompt}
           </p>
         </div>
 
         {/* Side-by-Side Comparison Grid */}
-        <div className="mt-8 grid gap-6 lg:grid-cols-2">
-          {/* Left: Raw LLM */}
-          <div className="rounded-card border border-line bg-surface p-6 shadow-xs">
-            <div className="flex items-center justify-between border-b border-line pb-4">
-              <div className="flex items-center gap-2.5">
-                <div className="flex size-8 items-center justify-center rounded-control bg-red-100 dark:bg-red-950 text-danger">
-                  <XCircle className="size-4" />
+        <div className="mt-8 grid gap-8 lg:grid-cols-2">
+          {/* Card A: Raw LLM Output */}
+          <div className="flex flex-col justify-between rounded-card border border-red-200 dark:border-red-950/60 bg-red-50/20 dark:bg-red-950/10 p-6 sm:p-8">
+            <div>
+              <div className="flex items-center justify-between gap-2 border-b border-red-200/60 dark:border-red-900/40 pb-4">
+                <div className="flex items-center gap-2">
+                  <div className="flex size-7 items-center justify-center rounded-control bg-red-100 text-red-700 dark:bg-red-950 dark:text-red-400">
+                    <XCircle className="size-4" />
+                  </div>
+                  <span className="text-xs font-bold uppercase tracking-wider text-red-700 dark:text-red-400">
+                    Standard Conversational LLM
+                  </span>
                 </div>
-                <div>
-                  <h3 className="text-sm font-semibold text-ink">Raw Foundation LLM</h3>
-                  <p className="text-xs text-subtle">Isolated text generation without quant solvers</p>
-                </div>
-              </div>
-              <span className="rounded-control bg-red-50 dark:bg-red-950/60 border border-red-200/50 px-2 py-0.5 text-xs font-medium text-danger">
-                Flawed Output
-              </span>
-            </div>
-
-            <div className="mt-5 space-y-4">
-              <div>
-                <p className="text-xs font-medium text-subtle uppercase tracking-wider">Generated Response</p>
-                <p className="mt-1 text-sm font-semibold text-danger">
-                  {selectedScenario.rawLLM.title}
-                </p>
-                <p className="mt-1.5 text-xs text-muted leading-relaxed">
-                  {selectedScenario.rawLLM.description}
-                </p>
+                <span className="rounded-control bg-red-100 dark:bg-red-950 px-2 py-0.5 text-[11px] font-semibold text-red-700 dark:text-red-400">
+                  Hallucination Failure
+                </span>
               </div>
 
-              <div className="rounded-control bg-surface-subtle p-3 border border-line">
+              <h3 className="mt-5 text-base font-semibold text-ink sm:text-lg">
+                {scenario.rawLLM.title}
+              </h3>
+
+              <p className="mt-3 text-xs leading-relaxed text-muted sm:text-sm">
+                {scenario.rawLLM.description}
+              </p>
+
+              <div className="mt-6 rounded-control border border-red-200 dark:border-red-900/50 bg-surface p-4">
                 <div className="flex items-start gap-2">
-                  <AlertTriangle className="size-4 text-danger shrink-0 mt-0.5" />
+                  <AlertTriangle className="size-4 text-red-600 shrink-0 mt-0.5" />
                   <div>
-                    <p className="text-xs font-semibold text-ink">Identified MIT Sloan Flaw</p>
-                    <p className="mt-0.5 text-xs text-muted leading-tight">
-                      {selectedScenario.rawLLM.flaw}
-                    </p>
+                    <span className="text-xs font-semibold text-red-700 dark:text-red-400">Regulatory & Financial Impact:</span>
+                    <p className="mt-0.5 text-xs text-subtle leading-relaxed">{scenario.rawLLM.flaw}</p>
                   </div>
                 </div>
               </div>
+            </div>
 
-              <div className="rounded-control bg-surface-subtle p-3 text-xs flex items-center justify-between border border-line">
-                <span className="text-subtle">Financial Impact:</span>
-                <span className="font-semibold text-danger tabular-nums">{selectedScenario.rawLLM.metric}</span>
-              </div>
+            <div className="mt-6 pt-4 border-t border-red-200/60 dark:border-red-900/40">
+              <span className="text-xs font-mono font-bold text-red-700 dark:text-red-400">
+                {scenario.rawLLM.metric}
+              </span>
             </div>
           </div>
 
-          {/* Right: Syntropy AI Neuro-Symbolic */}
-          <div className="rounded-card border border-brand-600/40 bg-surface p-6 shadow-xs">
-            <div className="flex items-center justify-between border-b border-line pb-4">
-              <div className="flex items-center gap-2.5">
-                <div className="flex size-8 items-center justify-center rounded-control bg-brand-50 dark:bg-brand-950 text-brand-700 dark:text-brand-600">
-                  <CheckCircle2 className="size-4" />
+          {/* Card B: Syntropy Neuro-Symbolic Engine */}
+          <div className="flex flex-col justify-between rounded-card border border-brand-600/30 bg-brand-50/10 dark:bg-brand-950/20 p-6 sm:p-8 relative overflow-hidden shadow-xs">
+            <div>
+              <div className="flex items-center justify-between gap-2 border-b border-brand-600/20 pb-4">
+                <div className="flex items-center gap-2">
+                  <div className="flex size-7 items-center justify-center rounded-control bg-brand-600 text-white dark:text-brand-950">
+                    <ShieldCheck className="size-4" />
+                  </div>
+                  <span className="text-xs font-bold uppercase tracking-wider text-brand-700 dark:text-brand-600">
+                    Syntropy Statutory Engine
+                  </span>
                 </div>
-                <div>
-                  <h3 className="text-sm font-semibold text-ink">Syntropy AI Hybrid Engine</h3>
-                  <p className="text-xs text-subtle">Academic middleware + Deterministic quant core</p>
+                <span className="rounded-control bg-brand-50 dark:bg-brand-950 px-2 py-0.5 text-[11px] font-semibold text-brand-700 dark:text-brand-600 border border-brand-600/20">
+                  Fiduciary Underwriting
+                </span>
+              </div>
+
+              <h3 className="mt-5 text-base font-semibold text-ink sm:text-lg">
+                {scenario.neuroSymbolic.title}
+              </h3>
+
+              <p className="mt-3 text-xs leading-relaxed text-muted sm:text-sm">
+                {scenario.neuroSymbolic.description}
+              </p>
+
+              <div className="mt-6 space-y-3">
+                <div className="rounded-control border border-line bg-surface p-3 text-xs">
+                  <span className="font-semibold text-ink">Calculation Shield: </span>
+                  <span className="text-muted">{scenario.neuroSymbolic.middleware}</span>
+                </div>
+                <div className="rounded-control border border-line bg-surface p-3 text-xs">
+                  <span className="font-semibold text-ink">Statutory Solver: </span>
+                  <span className="font-mono text-brand-700 dark:text-brand-600">{scenario.neuroSymbolic.quantSolver}</span>
                 </div>
               </div>
-              <span className="rounded-control bg-brand-50 dark:bg-brand-950 border border-brand-600/20 px-2 py-0.5 text-xs font-medium text-brand-700 dark:text-brand-600">
-                Institutional Grade
-              </span>
             </div>
 
-            <div className="mt-5 space-y-4">
-              <div>
-                <p className="text-xs font-medium text-subtle uppercase tracking-wider">Engine Output</p>
-                <p className="mt-1 text-sm font-semibold text-brand-700 dark:text-brand-600">
-                  {selectedScenario.neuroSymbolic.title}
-                </p>
-                <p className="mt-1.5 text-xs text-muted leading-relaxed">
-                  {selectedScenario.neuroSymbolic.description}
-                </p>
-              </div>
-
-              <div className="grid grid-cols-2 gap-2 text-xs">
-                <div className="rounded-control bg-surface-subtle p-2.5 border border-line">
-                  <p className="font-semibold text-ink">Academic Middleware:</p>
-                  <p className="mt-0.5 text-xs text-muted">{selectedScenario.neuroSymbolic.middleware}</p>
-                </div>
-                <div className="rounded-control bg-surface-subtle p-2.5 border border-line">
-                  <p className="font-semibold text-ink">Quant Solver Executed:</p>
-                  <p className="mt-0.5 text-xs text-muted">{selectedScenario.neuroSymbolic.quantSolver}</p>
-                </div>
-              </div>
-
-              <div className="rounded-control bg-brand-50/70 dark:bg-brand-950/70 p-3 text-xs flex items-center justify-between border border-brand-600/20">
-                <span className="text-ink font-medium">Outcome:</span>
-                <span className="font-semibold text-brand-700 dark:text-brand-600 tabular-nums">{selectedScenario.neuroSymbolic.metric}</span>
-              </div>
+            <div className="mt-6 pt-4 border-t border-brand-600/20">
+              <span className="text-xs font-mono font-bold text-brand-700 dark:text-brand-600">
+                {scenario.neuroSymbolic.metric}
+              </span>
             </div>
           </div>
         </div>
-
-        <p className="mt-8 text-center text-xs text-subtle max-w-2xl mx-auto">
-          Illustrative benchmark scenarios modeled after academic literature (MIT Sloan, FinRobot V2, and VERAFI SMT-lib formal verification). Live calculation shields and drift corridor constraints run deterministically via the <code className="font-mono text-ink">@wealth-advisor/rules</code> kernel in the Advisor Sandbox.
-        </p>
       </div>
     </section>
   );

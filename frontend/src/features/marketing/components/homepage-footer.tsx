@@ -1,4 +1,4 @@
-import { ArrowRight, Lock, ShieldCheck } from 'lucide-react';
+import { ArrowRight, Building2, Lock, Scale, ShieldCheck } from 'lucide-react';
 import { Link } from 'react-router';
 import logoImg from '../../../assets/logo.png';
 import logoDarkImg from '../../../assets/logo-dark.png';
@@ -14,76 +14,79 @@ export function HomepageFooter() {
               <div className="relative flex size-10 shrink-0 items-center justify-center">
                 <img
                   src={logoImg}
-                  alt="Syntropy AI Logo"
+                  alt="Syntropy Logo"
                   className="size-10 object-contain dark:hidden"
                 />
                 <img
                   src={logoDarkImg}
-                  alt="Syntropy AI Logo"
+                  alt="Syntropy Logo"
                   className="hidden size-10 object-contain dark:block"
                 />
               </div>
-              <span className="font-display text-xl font-bold tracking-tight text-ink">Syntropy AI</span>
+              <div className="flex flex-col">
+                <span className="font-display text-xl font-bold tracking-tight text-ink leading-tight">Syntropy</span>
+                <span className="text-[10px] font-semibold uppercase tracking-wider text-brand-700 dark:text-brand-600">Dubai Real Estate Intelligence</span>
+              </div>
             </Link>
 
             <p className="max-w-md text-xs leading-relaxed text-subtle">
-              The institutional-grade AI Wealth Operating System bridging raw LLMs with deterministic quantitative
-              rigor. Unifying an automated advisor lifecycle, a semantic knowledge graph, and MIT Sloan
-              bias mitigation.
+              The premier real estate investment platform bridging raw LLMs with deterministic UAE and Dubai
+              statutory underwriting. Unifying the DLD 2026 Golden Visa circular, CBUAE Circular No. 31/2013,
+              and interactive Deal Room modeling.
             </p>
 
             <div className="flex flex-wrap items-center gap-3 pt-2 text-xs">
               <span className="inline-flex items-center gap-1.5 rounded-control border border-line bg-surface-subtle px-2.5 py-1 text-ink font-medium">
                 <ShieldCheck className="size-3.5 text-brand-600" />
-                SHA-256 Ledger
+                Calculation Shield
               </span>
               <span className="inline-flex items-center gap-1.5 rounded-control border border-line bg-surface-subtle px-2.5 py-1 text-ink font-medium">
-                <Lock className="size-3.5 text-gold" />
-                Zero Training Guarantee
+                <Scale className="size-3.5 text-gold" />
+                DLD 2026 Compliant
               </span>
             </div>
           </div>
 
           {/* Column 1: Core Architecture */}
           <div>
-            <p className="text-xs font-bold uppercase tracking-wider text-ink">The Architecture</p>
+            <p className="text-xs font-bold uppercase tracking-wider text-ink">Statutory Standards</p>
             <ul className="mt-4 space-y-2.5 text-xs text-subtle">
               <li>
-                <a href="#triad" className="hover:text-ink transition">The Triad Core</a>
+                <a href="#triad" className="hover:text-ink transition">Statutory Engines</a>
               </li>
               <li>
-                <a href="#documentation" className="hover:text-ink transition">Advisor Lifecycle OS</a>
+                <a href="#deal-room" className="hover:text-ink transition">Interactive Deal Room</a>
               </li>
               <li>
-                <a href="#documentation" className="hover:text-ink transition">MIT Sloan Rigor Gap</a>
+                <a href="#simulator" className="hover:text-ink transition">Statutory Simulator</a>
               </li>
               <li>
-                <a href="#documentation" className="hover:text-ink transition">Semantic Knowledge Graph</a>
+                <a href="#documentation" className="hover:text-ink transition">2026 Golden Visa Rules</a>
               </li>
               <li>
-                <a href="#simulator" className="hover:text-ink transition">Interactive Simulator</a>
+                <a href="#documentation" className="hover:text-ink transition">CBUAE Mortgage Caps</a>
               </li>
             </ul>
           </div>
 
           {/* Column 2: Platform & App */}
           <div>
-            <p className="text-xs font-bold uppercase tracking-wider text-ink">Live Platform</p>
+            <p className="text-xs font-bold uppercase tracking-wider text-ink">Platform Surfaces</p>
             <ul className="mt-4 space-y-2.5 text-xs text-subtle">
               <li>
-                <Link to="/" className="hover:text-ink transition">Dashboard Overview</Link>
+                <Link to="/investments" className="hover:text-ink transition">Property Deal Room</Link>
               </li>
               <li>
-                <Link to="/portfolio" className="hover:text-ink transition">Multi-Currency Holdings</Link>
+                <Link to="/plan" className="hover:text-ink transition">5-Step Layman Planner</Link>
               </li>
               <li>
-                <Link to="/cashflow" className="hover:text-ink transition">Cashflow & Remittances</Link>
+                <Link to="/" className="hover:text-ink transition">Executive Dashboard</Link>
               </li>
               <li>
-                <Link to="/advisory" className="hover:text-ink transition">AI Advisory Engine</Link>
+                <Link to="/advisory" className="hover:text-ink transition">Real Estate AI Copilot</Link>
               </li>
               <li>
-                <Link to="/onboarding" className="hover:text-ink transition">Risk Profiler Wizard</Link>
+                <Link to="/onboarding" className="hover:text-ink transition">Investor Profiling</Link>
               </li>
             </ul>
           </div>
@@ -93,44 +96,44 @@ export function HomepageFooter() {
             <p className="text-xs font-bold uppercase tracking-wider text-ink">Access & Security</p>
             <ul className="mt-4 space-y-2.5 text-xs text-subtle">
               <li>
-                <Link to="/login" className="hover:text-ink transition">Client & Advisor Login</Link>
+                <Link to="/login" className="hover:text-ink transition">Sign In</Link>
               </li>
               <li>
                 <Link to="/signup" className="hover:text-ink transition">Create Account</Link>
               </li>
               <li>
-                <Link to="/settings/security" className="hover:text-ink transition">Passkeys & Security</Link>
+                <Link to="/settings/security" className="hover:text-ink transition">Biometric Passkeys</Link>
               </li>
               <li>
-                <Link to="/settings/ledger" className="hover:text-ink transition">Cryptographic Ledger</Link>
+                <Link to="/settings/ledger" className="hover:text-ink transition">Transaction History</Link>
               </li>
               <li>
-                <a href="#positioning" className="hover:text-ink transition">B2B2C vs B2C Matrix</a>
+                <a href="#documentation" className="hover:text-ink transition">Regulatory Guide</a>
               </li>
             </ul>
           </div>
         </div>
 
-        {/* Regulatory & Fiduciary Disclaimers */}
+        {/* Regulatory & Statutory Disclaimers */}
         <div className="mt-12 border-t border-line pt-8 text-[11px] leading-relaxed text-subtle space-y-3">
           <p>
-            <strong>Regulatory Disclosure:</strong> Syntropy AI provides algorithmic intelligence, execution
-            workflows, and quantitative analysis tools for licensed financial advisors and self-directed investors.
-            Outputs are deterministically modeled via Python and mathematical solver engines. Past performance is
-            no guarantee of future financial results. Simulation and rebalancing proposals do not constitute an
-            unconditional guarantee of investment returns.
+            <strong>Regulatory Disclosure:</strong> Syntropy provides deterministic mathematical modeling and
+            statutory underwriting intelligence based on official directives from the Dubai Land Department (Law No. 7 of 2006,
+            Executive Council Resolution No. 30 of 2013, and the February 2026 Golden Visa circular) and Central Bank of the UAE
+            (Circular No. 31/2013). All figures, fee schedules, and mortgage constraints are computed by pure deterministic
+            algorithms with neuro-symbolic verification.
           </p>
           <p>
-            <strong>Fiduciary & FIDO2 Verification:</strong> In B2B2C deployments, the human financial advisor remains
-            the licensed fiduciary holding legal responsibility for all client recommendations. All trade proposals
-            require human-in-the-loop authorization verified via FIDO2 / WebAuthn cryptographic biometric proof.
+            <strong>Statutory Underwriting Guarantee:</strong> Outputs generated by the platform do not replace official title deeds,
+            valuations certified by licensed RERA appraisers, or binding commercial offers from licensed UAE financial institutions.
+            Mortgage terms remain subject to individual credit assessment and lender underwriting approval.
           </p>
           <div className="flex flex-wrap items-center justify-between gap-4 border-t border-line pt-4 text-xs text-subtle">
-            <p>© 2026 Syntropy AI. All rights reserved.</p>
+            <p>© 2026 Syntropy. All rights reserved.</p>
             <div className="flex items-center gap-6">
-              <span>Tamper-Evident Ledger</span>
-              <span>Calculation Shield</span>
-              <span>Zero Client PII Training</span>
+              <span>Deterministic Calculation Shield</span>
+              <span>DLD Statutory Compliance</span>
+              <span>Zero Calculation Hallucination</span>
             </div>
           </div>
         </div>

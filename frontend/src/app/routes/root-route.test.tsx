@@ -50,7 +50,7 @@ describe('RootRoute role redirect', () => {
     clearSession();
     stubMe(401, ['USER']);
     renderRoot('/');
-    expect(await screen.findByRole('heading', { level: 1, name: /Bridging the gap/i })).toBeVisible();
+    expect(await screen.findByRole('heading', { level: 1, name: /Hyper-personalized Dubai real estate/i })).toBeVisible();
   });
 
   it('keeps a pure USER on the client dashboard', async () => {
