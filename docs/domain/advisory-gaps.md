@@ -1,6 +1,6 @@
 # Advisory gaps
 
-Surveyed 2026-10-06 · re-verified after `19f4b73` · statuses as defined in `docs/domain/advisory-pipeline.md`
+Surveyed 2026-11-04 · re-verified after `711ef0a` · statuses as defined in `docs/domain/advisory-pipeline.md`
 Order is dependency order: a gap's `blocked` column names what must land first. Gap numbers are stable across surveys so they can be tracked. Phase sequencing and day allocation stay in `docs/implementation-plan.md`; code smells stay in `docs/refactor-backlog.md`.
 
 `19f4b73` closed G2, G3, G6 and most of G15 by adding the finance, wealth, admin and sharing modules. What it did not close is the subject of this survey: the values those modules serve are authored, the identity behind them is hardcoded, and nothing reads any of it.
@@ -36,7 +36,7 @@ done when every advisory route derives its tenant from the verified token and no
 ### G2 · Accounts and transactions
 status   closed by `19f4b73`
 evidence `finance-collections.ts` declares both; `finance.routes.ts` exposes `GET,POST /accounts`, `GET /transactions`, `GET /cashflow`; covered by `backend/test/unit/finance/finance-api.test.ts`
-blocked  —
+blocked  none
 done when closed
 
 ### G3 · Cross-currency runway
@@ -49,20 +49,20 @@ done when the cashflow response moves when a currency or a transaction changes
 ### G4 · Persisted investor profile
 status   closed
 evidence `risk_profiles` collection (`RiskProfileDocument`), `GET /profile` and `PUT /profile` under `/api/wealth`, and `profile-store.ts` background sync to wealth module. Covered by `wealth-api.test.ts` and `route-guards.memory.test.ts`.
-blocked  —
+blocked  none
 done when answers survive a new browser and a signed-in read returns them
 
 ### G5 · Server-side risk scoring
 status   closed
 evidence `WealthApi.saveProfile` executes `computeRiskScoreSummary` (`rules/src/profiling.rule.ts`), computes base risk score, band, capacity, tolerance and need server-side, stores the profile, and updates the investor portfolio's `baseRiskScore` atomically. Covered by `wealth-api.test.ts`.
-blocked  —
+blocked  none
 done when closed
 done when the score a user sees comes from a stored profile and a stored runway
 
 ### G6 · Portfolios and asset products
 status   closed by `19f4b73`
 evidence `wealth-collections.ts` declares `asset_products`, `portfolios`, `sandbox_ledgers`; `wealth.routes.ts` exposes `GET /products` and `GET /portfolio`
-blocked  —
+blocked  none
 done when closed
 
 ### G7 · Computed optimizer
@@ -103,18 +103,18 @@ done when `/evidence` lists rows read from the API whose digests recompute from 
 ### G12 · Computed rationale
 status   `fixture`
 evidence the three-pillar structure in `contracts/src/advisory/advisory-chat.contract.ts:19` is filled from a per-locale literal record in the mock adapter (`llm-gateway.ts:41`)
-remedy  build each pillar from the tool result that produced it — personal finance from the runway, cross-border from the exposure, strategy from the target weights — so the same numbers cannot be narrated differently
+remedy  build each pillar from the tool result that produced it: personal finance from the runway, cross-border from the exposure, strategy from the target weights, so the same numbers cannot be narrated differently
 blocked  G9
 done when a rationale sentence changes when its underlying engine output changes
 
 ## Surfaces
 
 ### G13 · Frontend reads the API · `frontend/src/`
-status   `fixture`
-evidence `frontend/src/features/` has `admin` and `auth` only; `/portfolio`, `/cashflow`, `/evidence` and `/share/:token` import `frontend/src/lib/demo-data.ts`, and `/advisory` replies from seeded local state (`frontend/src/app/routes/advisory-page.tsx:17`)
-remedy  one hook per module, then delete the fixture constants and the seeded replies
+status   `partial`
+evidence `frontend/src/features/investments/` communicates with `/api/properties` with optimistic updates, fallback cache, and background sync; `advisor`, `finance`, `wealth`, `sharing`, `admin`, and `auth` feature clients exist; `/share/:token` and secondary advisory tabs still maintain local fixture fallbacks
+remedy  continue replacing fixture constants across remaining legacy views
 blocked  G8, G9, G11
-done when no advisory page imports `demo-data.ts`
+done when no page imports `demo-data.ts`
 
 ### G14 · News, reminders and reports
 status   `absent`
@@ -126,5 +126,5 @@ done when each tab reads a backend route
 ### G15 · Snapshot content and privacy masking · `backend/src/modules/sharing/`
 status   closed
 evidence token creation, `ttlHours` default 72 capped at 720, and expiry on read all work (`sharing.api.ts:36`, `:83`); the snapshot is the caller's rebalance proposal and `ownerDisplayName` comes from the request (`sharing.api.ts`); `privacyMasked` redacts holdings and currency amounts on public read
-blocked  —
+blocked  none
 done when a shared link shows the sharer's real plan and honours the mask toggle

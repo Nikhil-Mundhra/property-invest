@@ -258,7 +258,7 @@ export function createWealthApi(deps: WealthApiDeps) {
         personalFinance:
           'Allocation guarantees emergency liquidity runway exceeds 6 months via overnight money market reserves before capital is deployed into duration risk.',
         crossBorder: isShariaClient
-          ? 'Cross-border UAE and GCC remittance corridors protected via USD/AED sovereign and green corporate sukuk yielding 5.10%–5.45% tax-efficient distributions.'
+          ? 'Cross-border UAE and GCC remittance corridors protected via USD/AED sovereign and green corporate sukuk yielding 5.10% to 5.45% tax-efficient distributions.'
           : 'Cross-border corridors diversified across EUR sovereign bonds and global equities to hedge against regional currency depreciation.',
         wealthStrategy: largestHolding
           ? `Mean-variance optimization selected ${largestHolding.name} (${largestHolding.symbol}) as anchor holding at ${(largestHolding.weight * 100).toFixed(0)}% weight with Composite Score of ${largestHolding.compositeScore.toFixed(2)}.`

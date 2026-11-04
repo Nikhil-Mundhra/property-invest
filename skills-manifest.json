@@ -89,12 +89,6 @@
     "description": "End-to-end toolkit for agents to inspect, audit, verify against codebase and git history, and safely close GitHub issues. Use when triaging issues, checking milestone/track progress, verifying requirements, running audit matrices, or closing completed issues.",
     "path": ".agents/skills/github-issues"
   },
-  "glassmorphism-ui": {
-    "name": "glassmorphism-ui",
-    "category": "Frontend, UI/UX & Design Systems",
-    "description": "Framework-agnostic rules for building frosted-glass (glassmorphism) interfaces. Use when asked for glass UI, frosted panels, translucent or blurred surfaces, layered depth, or a liquid/blob animated background. Covers blur tiers, alpha ramps, border recipes, layer stacking, component states, and WCAG 2.2 AA safeguards. Applies to CSS, Compose, SwiftUI, and React Native; not to one stack.",
-    "path": ".agents/skills/glassmorphism-ui"
-  },
   "graphify": {
     "name": "graphify",
     "category": "Codebase & Documentation Navigation",

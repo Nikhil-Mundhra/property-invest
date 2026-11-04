@@ -67,7 +67,6 @@ The rules-based guardrail layer governs what operations and recommendations the 
 | `G_DBR_CAP` | `TIER_1_ADVISORY`, `TIER_2_SIMULATE` | Hard Block | `rules/src/uae-mortgage.rule.ts` enforces 50% maximum Debt Burden Ratio under CBUAE Circular No. 31/2013 | Platform-Invariant |
 | `G_LTV_CEILING` | `TIER_1_ADVISORY`, `TIER_2_SIMULATE` | Hard Block | `rules/src/uae-mortgage.rule.ts` enforces 50% off-plan flat cap and resident/non-resident statutory tiers | Platform-Invariant |
 | `G_VOID_HAIRCUT` | `TIER_1_ADVISORY`, `TIER_2_SIMULATE` | Warning / Underwriting | `rules/src/property-yield.rule.ts` applies 2-month void rental haircut for prudent net yield calculations | Platform-Invariant |
-| `G_FCF_PAYOUT` | `TIER_1_ADVISORY`, `TIER_2_SIMULATE` | Hard Block | Filters out dividend yield traps exceeding 90% free cash flow payout ratio | Platform-Invariant |
 
 ## Deterministic engines
 Every advice-bearing number is meant to come from a pure function over stored data; the model narrates, it does not compute. A live model's reply and rationale fields are kept only when every number in them matches a number the engines produced or the prompt carried (`backend/src/modules/advisory/domain/calculation-shield.ts`); any other field falls back to the deterministic text. Numbers spelled out in words are not detected.
@@ -78,7 +77,7 @@ Every advice-bearing number is meant to come from a pure function over stored da
 | `measureSnapshot` (`backend/src/modules/analytics/domain/`) | aligned log returns, annualized mean, volatility, covariance over a 365-day window | `built` |
 | `runwayBand` (`rules/src/burn-rate.rule.ts`) | bands a months figure into `critical`, `warning`, `healthy` | `built` : computed by the finance module and served by `contracts/src/finance/cashflow.contract.ts` |
 | Burn-rate calculator (`backend/src/modules/finance/domain/burn-rate-calculator.ts`) | inflow, outflow, liquid reserves and runway from transactions, scaled by household mode | `partial` : monthly flows are averaged over the calendar months present and reserves are valued into the base currency by `finance.api.ts`, but inflow and outflow still fall back to literals when a tenant has no transactions |
-| `calculateBaseRiskScore`, `mapStressAnswerToRiskBand` (`rules/src/profiling.rule.ts`) | base 1–10 score and stress band from questionnaire answers | `partial` : runs in the frontend only |
+| `calculateBaseRiskScore`, `mapStressAnswerToRiskBand` (`rules/src/profiling.rule.ts`) | base 1 to 10 score and stress band from questionnaire answers | `partial` : runs in the frontend only |
 | Portfolio optimizer | target allocation from the effective score and covariance, with carve-outs | `fixture` : `POST /wealth/optimize` returns a fixed action list |
 
 ## Agent tools
@@ -96,9 +95,9 @@ There is no tool registry, function-calling schema or tool dispatch in the codeb
 ## Data flow today
 ```mermaid
 flowchart TB
-  fixtures["frontend/src/lib/demo-data.ts · holdings, runway, ledger"]
-  fixtures --> pages["/ , /portfolio, /cashflow, /evidence, /share/:token"]
-  canned["/advisory · seeded replies, no backend read"]
+  fixtures["frontend/src/lib/demo-data.ts · fallback fixture data"]
+  investments["frontend/src/features/investments/api/properties-api.ts"]
+  advisor["frontend/src/features/advisor/api/advisory-api.ts"]
   admin["frontend/src/features/admin/api/admin-api.ts"]
   cron[["Vercel Cron · weekday 23:00 UTC"]] --> refresh["GET /api/market/refresh"]
   refresh --> frankfurter[Frankfurter · ECB fx_rates]
@@ -107,11 +106,16 @@ flowchart TB
   marketstack --> stores
   stores --> snapshot[analytics · market_snapshots]
   routes["/api/finance/* · /api/wealth/* · /api/advisory/chat · /api/sharing/* · /api/admin/*"]
+  proproutes["/api/properties · property persistence & Dubai benchmarks"]
   snapshot -. no frontend caller .-> routes
-  routes -. only /api/admin has one .-> pages
+  investments --> proproutes
+  advisor --> routes
   admin --> routes
+  proproutes --> pages["/investments, /investments/:id, /dashboard, /plan"]
+  routes --> pages
+  fixtures -. offline fallback .-> pages
 ```
 
-`frontend/src/features/` has hooks for auth and admin only; there is no finance, wealth, advisory or sharing feature directory, so every advisory number a user sees still comes from `frontend/src/lib/demo-data.ts` or from the seeded replies in `frontend/src/app/routes/advisory-page.tsx`.
+`frontend/src/features/` contains feature API modules for `investments` (`/api/properties` with optimistic store and local benchmark fallbacks), `advisor` (`/api/advisory/chat`), `admin` (`/api/admin/*`), `finance`, `wealth`, and `sharing`. Secondary mock surfaces and demo fixture fallbacks in `frontend/src/lib/demo-data.ts` and seeded benchmark data ensure resilience when external services are unreachable.
 
 Route surface: `contracts/docs/apis/market.md`, `contracts/docs/apis/analytics.md`, `contracts/docs/apis/core.md`. Module and event contracts: `backend/docs/module-dependencies.md`, `backend/docs/events.md`.

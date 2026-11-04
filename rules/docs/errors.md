@@ -23,8 +23,8 @@ Every non-2xx API body is `ErrorResponse` (`contracts/src/common/error.contract.
 ## Number bands
 | Band | Meaning |
 |---|---|
-| `<PREFIX>_1001`–`<PREFIX>_1899` | client error |
-| `<PREFIX>_1900`–`<PREFIX>_1999` | server error |
+| `<PREFIX>_1001` to `<PREFIX>_1899` | client error |
+| `<PREFIX>_1900` to `<PREFIX>_1999` | server error |
 
 ## Catalogue
 | Code | Status | Meaning |

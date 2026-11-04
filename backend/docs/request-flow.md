@@ -35,4 +35,4 @@ The error handler (`backend/src/core/http/error-handler.ts`) is installed on the
 3. fetch: FX rates first, then end-of-day prices; one `RequestBudget` reservation per Marketstack page; both fetches finish before any write, a provider failure stores nothing.
 4. write: both appends are idempotent upserts, keyed by (symbol, date) and (base, quote, date); a re-run stores nothing new.
 5. publish: one `market.data_refreshed` v1 per refresh, `asOf` being the latest stored price day (`backend/docs/events.md`).
-6. handle: the in-process bus runs `analytics.snapshot` inside the same request — window, align, returns, covariance, upsert `market_snapshots` by `asOf`, then mark the event id; a failing handler is logged and never redelivered, and the next publish recomputes it.
+6. handle: the in-process bus runs `analytics.snapshot` inside the same request: window, align, returns, covariance, upsert `market_snapshots` by `asOf`, then mark the event id; a failing handler is logged and never redelivered, and the next publish recomputes it.

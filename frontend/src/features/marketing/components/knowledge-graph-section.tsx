@@ -31,7 +31,7 @@ export function KnowledgeGraphSection() {
                 <div>
                   <h3 className="text-sm font-semibold text-ink">Structured & Unstructured Fusion</h3>
                   <p className="mt-1 text-xs text-muted leading-relaxed">
-                    Merges live account balances (Plaid/Yodlee — Roadmap), 1040 tax returns, and estate docs with unstructured
+                    Merges live account balances (Plaid/Yodlee - Roadmap), 1040 tax returns, and estate docs with unstructured
                     meeting transcripts and email communications into a single ontological view.
                   </p>
                 </div>
@@ -44,8 +44,8 @@ export function KnowledgeGraphSection() {
                 <div>
                   <h3 className="text-sm font-semibold text-ink">Complex Event Processing (CEP)</h3>
                   <p className="mt-1 text-xs text-muted leading-relaxed">
-                    Background event listeners detect critical life signals—such as marriage, newborn dependents,
-                    real estate acquisitions, or salary shifts—automatically triggering portfolio and insurance reviews.
+                    Background event listeners detect critical life signals, such as marriage, newborn dependents,
+                    real estate acquisitions, or salary shifts, automatically triggering portfolio and insurance reviews.
                   </p>
                 </div>
               </div>

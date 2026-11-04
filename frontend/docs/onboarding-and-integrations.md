@@ -19,9 +19,9 @@ This document details:
 | :--- | :--- | :--- | :--- |
 | **Residency & Corridor Detection** | Manual 2-letter ISO code typing (`DE`, `CN`, `SG`) | Geolocation / `Intl` locale detection + 1-tap global expat corridor chips | **85% fewer keystrokes** |
 | **Step Advancement** | Select option $\to$ move mouse $\to$ click "Next" button | **Auto-advance on single-select** with 200ms easing transition | **50% fewer clicks** |
-| **Holdings Valuation** | Blank amount fields for each asset bucket in every residence and income currency | **1-tap logarithmic wealth brackets** (`<€25k`, `€25k–€100k`, `€100k–€250k`, `€250k+`) or statement drag-and-drop | **Eliminates typing on mobile** |
-| **Age & Horizon** | Numeric input field | Life-stage chips (`Early Career <30`, `Peak Wealth 30–45`, `Pre-Retirement 45+`) | **1 tap** |
-| **Keyboard Accelerators** | Mouse/touch only | Hotkeys `1`–`4` for options, `Enter` to confirm, `Esc` / `Backspace` to step back | **Power user desktop speed** |
+| **Holdings Valuation** | Blank amount fields for each asset bucket in every residence and income currency | **1-tap logarithmic wealth brackets** (`<€25k`, `€25k-€100k`, `€100k-€250k`, `€250k+`) or statement drag-and-drop | **Eliminates typing on mobile** |
+| **Age & Horizon** | Numeric input field | Life-stage chips (`Early Career <30`, `Peak Wealth 30-45`, `Pre-Retirement 45+`) | **1 tap** |
+| **Keyboard Accelerators** | Mouse/touch only | Hotkeys `1`-`4` for options, `Enter` to confirm, `Esc` / `Backspace` to step back | **Power user desktop speed** |
 | **Onboarding Tiers** | 7 mandatory sequential screens | **Express Mode (3 questions, 15 sec)** vs. **Comprehensive Mode (7 questions)** | **60% faster path to dashboard** |
 
 ---
@@ -97,7 +97,7 @@ Question 4 currently shows a blank section for each distinct residence and incom
 
 ```
 Bank & Liquid Cash:
-[ < €10k ]   [ €10k – €50k ]   [ €50k – €150k ]   [ €150k+ ]   [ Enter Exact ]
+[ < €10k ]   [ €10k - €50k ]   [ €50k - €150k ]   [ €150k+ ]   [ Enter Exact ]
 ```
 
 ### 3. Express Mode vs. Comprehensive Mode Toggle

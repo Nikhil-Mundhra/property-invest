@@ -64,7 +64,7 @@ export function MITSloanShockSection() {
               </div>
               <p className="mt-3 text-xs leading-relaxed text-muted">
                 <strong className="text-ink">The Flaw:</strong> When simulated users lose employment, standard LLMs recommend slashing
-                spending by 60%–80% immediately, ignoring existing 6–12 month liquid cash buffers.
+                spending by 60% to 80% immediately, ignoring existing 6 to 12 month liquid cash buffers.
               </p>
             </div>
             <div className="mt-4 rounded-control bg-brand-50/60 dark:bg-brand-950/60 p-3 text-xs text-brand-900 dark:text-brand-100 border border-brand-600/20">
@@ -114,7 +114,7 @@ export function MITSloanShockSection() {
               </div>
               <p className="mt-3 text-xs leading-relaxed text-muted">
                 <strong className="text-ink">The Flaw:</strong> Prompts phrased by female or less financially literate users trigger overly
-                conservative rules-of-thumb, causing an estimated <strong className="text-red-600 dark:text-red-400">$50k–$100k wealth penalty</strong>.
+                conservative rules-of-thumb, causing an estimated <strong className="text-red-600 dark:text-red-400">$50k to $100k wealth penalty</strong>.
               </p>
             </div>
             <div className="mt-4 rounded-control bg-brand-50/60 dark:bg-brand-950/60 p-3 text-xs text-brand-900 dark:text-brand-100 border border-brand-600/20">

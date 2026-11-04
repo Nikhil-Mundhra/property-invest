@@ -1,10 +1,10 @@
 # FinTechathon 2026: Implementation Plan
 **Project:** Dynamic Expat Wealth Agent (DEWA)  
-**Competition Track:** International Track — "AI as a Financial Participant"  
+**Competition Track:** International Track: "AI as a Financial Participant"  
 **Core Topic:** Topic B (Wealth Advisory Agent)  
 **Synergistic Extensions:** Topic A (Personal & Family Finance) & Topic C (Cross-Border & Student Finance)  
 **Key Architectural Highlights:** Multi-Tenant Platform, API Key Management, Biometric Passkeys (FIDO2/WebAuthn), Multi-Provider LLM Gateway, Shareable Plan URLs, Multi-Language (i18n), Dark Mode, Mobile Web Optimization, and Native Android/iOS Deployment Track  
-**Primary Persona:** Elena — Cross-border remote professional in Europe with multi-corridor family remittances to East Asia facing FX currency swings  
+**Primary Persona:** Elena: Cross-border remote professional in Europe with multi-corridor family remittances to East Asia facing FX currency swings  
 
 ---
 
@@ -16,12 +16,12 @@
 | **Task Completion** | **40%** | Autonomous end-to-end advisory lifecycle: multi-currency cash flow ingestion (EUR, GBP, USD, SGD, CNY), individual vs. family household liquidity pooling, expat risk profiling, multi-asset matching, Black-Litterman/MVO allocation, and simulated sandbox trade execution. |
 | **Security & Compliance** | **30%** | Strict 4-tier permission model (Tier 0 to Tier 3), hardware-backed **FIDO2/WebAuthn Passkey biometric authorization for Tier 3 execution gates** (FaceID/TouchID/BiometricPrompt), multi-tenant data isolation, read-only tokenized plan sharing with privacy masking, deterministic financial calculation shield, cross-border regulatory boundary validation, and immutable sandbox audit logs. |
 | **Innovation & Interaction** | **30%** | Dynamic burn-rate risk recalibration (Topic A $\to$ B), cross-border FX shock absorption & remittance timing optimization (Topic C $\to$ B), streaming copilot dialogue with generative UI action cards, three-pillar explainability rationale, shareable strategy URLs for family/co-planners, multi-language support (EN, ZH-CN, ZH-HK, DE), modern dark mode UX, and first-class **mobile web & native iOS/Android viewing**. |
-| **Bonus Exploration** | **0–5 pts** | Cryptographic hash verification of sandbox ledger events with an optional on-chain settlement anchor. |
+| **Bonus Exploration** | **0-5 pts** | Cryptographic hash verification of sandbox ledger events with an optional on-chain settlement anchor. |
 
 ### 1.2 Strategic Scope Analysis: Individual vs. Family Budgeting in Topic B
 * **Is budgeting in scope for Topic B?** Standalone retail expense-tracking (e.g. categorizing coffees and groceries) strictly belongs to Topic A. However, in professional wealth advisory, **Individual vs. Joint/Family Household Wealth Profiling** is the single greatest driver of portfolio asset allocation:
-  * **Individual Mode:** Single expat/student; single income stream; personal burn rate; higher risk capacity; emergency buffer = 3–6 months.
-  * **Family / Joint Household Mode:** Multi-earner expat household; pooled cross-border income (e.g., EUR + GBP); joint emergency runway; dependent obligations (children's education funds, elderly parents' remittances); conservative risk capacity; emergency buffer = 6–12 months.
+  * **Individual Mode:** Single expat/student; single income stream; personal burn rate; higher risk capacity; emergency buffer = 3 to 6 months.
+  * **Family / Joint Household Mode:** Multi-earner expat household; pooled cross-border income (e.g., EUR + GBP); joint emergency runway; dependent obligations (children's education funds, elderly parents' remittances); conservative risk capacity; emergency buffer = 6 to 12 months.
 * **The Synergy:** By modeling budgeting as **Household Liquidity & Cash Flow Pooling**, we seamlessly bridge Topic A into Topic B: household burn rate and dependent cash liabilities directly determine the liquidity carve-out and dynamic risk penalty in the portfolio optimizer.
 
 ---
@@ -115,10 +115,10 @@ The system supports multi-tenant isolation, allowing institutions (wealth adviso
 
 ### 3.5 Multi-Language Architecture (i18n)
 * **Supported Locales:**
-  * `en` (English — Official International Track language)
-  * `zh-CN` (Simplified Chinese — WeBank / Shenzhen FinTechathon host language)
-  * `zh-HK` (Traditional Chinese — Hong Kong cross-border finance hub)
-  * `de` (German — Elena's European residency context)
+  * `en` (English: Official International Track language)
+  * `zh-CN` (Simplified Chinese: WeBank / Shenzhen FinTechathon host language)
+  * `zh-HK` (Traditional Chinese: Hong Kong cross-border finance hub)
+  * `de` (German: Elena's European residency context)
 * **Design:** Lightweight client-side dictionary provider; instant locale switching stored in `localStorage`.
 * **Multilingual AI Advisory:** System prompts inform the LLM of the user's active locale so explanations, disclaimers, and dialogue are rendered natively in the chosen language.
 
@@ -260,7 +260,7 @@ sequenceDiagram
 
 ## 6. Phase-Wise Implementation Roadmap
 
-### Phase 1: Domain Foundations, Rules & Contracts (Days 1–3)
+### Phase 1: Domain Foundations, Rules & Contracts (Days 1 to 3)
 **Objective:** Establish typed data contracts, validation rules, Passkey WebAuthn types, multi-tenant schemas, household cashflow models, plan sharing, i18n locales, responsive viewport rules, and deterministic calculation engines.
 
 #### 1.1 Shared Rules (`rules/src/`)
@@ -268,7 +268,7 @@ sequenceDiagram
 - [x] `asset-class.rule.ts`: Categories (`EQUITY_GLOBAL`, `EQUITY_US`, `EQUITY_INDIA`, `EQUITY_UAE`, `FIXED_INCOME_GOV`, `FIXED_INCOME_CORP`, `SUKUK_SOVEREIGN`, `SUKUK_CORP`, `MONEY_MARKET`, `FX_HEDGE`), 5% rebalance drift corridor (Vanguard 2015 citation).
 - [x] `permission-tier.rule.ts`: Tier definitions (`TIER_0_READ`, `TIER_1_ADVISORY`, `TIER_2_SIMULATE`, `TIER_3_EXECUTE`).
 - [x] `household-mode.rule.ts`: Modes (`INDIVIDUAL`, `FAMILY_HOUSEHOLD`), reserve multiplier (Individual: 1.0x, Family: 2.0x, OECD/Vanguard citation).
-- [x] `burn-rate.rule.ts`: Runway thresholds (Critical: $<3$ months, Warning: $3$–$6$ months, Healthy: $>6$ months, CFP Board / Fed SHED citation).
+- [x] `burn-rate.rule.ts`: Runway thresholds (Critical: $<3$ months, Warning: $3$ to $6$ months, Healthy: $>6$ months, CFP Board / Fed SHED citation).
 - [x] `profiling.rule.ts`: Seven onboarding questions as code (`as const`), deterministic base risk scoring (1.0 to 10.0), stress question mapping, time horizon derivation (Kahneman-Tversky / Grable-Lytton citation).
 - [x] `fundamental-ratios.rule.ts`: 5Y valuation percentile, corporate bond ICR and Net Debt/EBITDA, foreign revenue FX mismatch trigger, and retail signal badges (Damodaran / Graham-Dodd citation).
 - [x] `locale.rule.ts`: Supported locales (`en`, `zh-CN`, `zh-HK`, `de`).
@@ -349,7 +349,7 @@ sequenceDiagram
 
 ---
 
-### Phase 2: Backend Modules, Passkeys, Multi-Tenant Engine, Sharing & AI Gateway (Days 4–7)
+### Phase 2: Backend Modules, Passkeys, Multi-Tenant Engine, Sharing & AI Gateway (Days 4 to 7)
 **Objective:** Build the Passkey/WebAuthn service, multi-tenant scoping, plan sharing module, API key manager, multi-provider LLM gateway, and auditable sandbox ledger.
 
 #### 2.1 Passkey / WebAuthn & Auth Extension (`backend/src/modules/auth`)
@@ -414,7 +414,7 @@ sequenceDiagram
 
 ---
 
-### Phase 3: Frontend Executive Dashboard, Copilot UX, Mobile Web & Theming (Days 8–11)
+### Phase 3: Frontend Executive Dashboard, Copilot UX, Mobile Web & Theming (Days 8 to 11)
 **Objective:** Deliver an intuitive, responsive, and visually compelling user interface with mobile web optimization, dark mode, multi-language support, public shareable plan views, Passkey biometric authorization, and Admin console.
 
 #### 3.1 Design System, Dark Mode, Mobile Web & i18n Foundations
@@ -450,7 +450,7 @@ sequenceDiagram
 
 ---
 
-### Phase 4: Native Mobile Deployment Track (Android & iOS) (Days 11–13)
+### Phase 4: Native Mobile Deployment Track (Android & iOS) (Days 11 to 13)
 **Objective:** Deliver working native binary builds for iOS and Android wrapped via Capacitor, complete with native biometric FaceID/BiometricPrompt and push alert capabilities.
 
 #### 4.1 Capacitor Shell Configuration
@@ -475,11 +475,11 @@ sequenceDiagram
 
 ---
 
-### Phase 5: Submission Deliverables, Verification & Hardening (Days 13–14)
+### Phase 5: Submission Deliverables, Verification & Hardening (Days 13 to 14)
 **Objective:** Fulfill all 6 FinTechathon submission checklist requirements and verify production stability on Vercel and mobile.
 
 #### 5.1 Competition Submission Checklist Production
-- [ ] **01 Technical Documentation:** Complete `docs/architecture/` with C1–C3 diagrams, algorithm specs, multi-tenancy models, native mobile architecture, and Passkey/permission-tier security design.
+- [ ] **01 Technical Documentation:** Complete `docs/architecture/` with C1 to C3 diagrams, algorithm specs, multi-tenancy models, native mobile architecture, and Passkey/permission-tier security design.
 - [ ] **02 Presentation Deck (docs/submission/presentation-deck.md):** 10-slide outline structured for the 10-minute presentation: Problem $\to$ DEWA Solution $\to$ Architecture $\to$ 3-Topic Synergy $\to$ Live Demo (Desktop + Mobile) $\to$ Passkey Security & Compliance $\to$ Multi-Tenant Future.
 - [ ] **03 Demo Video Storyboard (docs/submission/demo-video-script.md):** Step-by-step 5-minute script featuring Elena's journey (burn rate spike + FX dip $\to$ mobile web / iOS TestFlight alert $\to$ agent consultation $\to$ share link generation $\to$ FaceID Passkey execution in dark mode).
 - [ ] **04 Source Code Cleanliness:** `npm run typecheck` zero errors, `npm test` green, clean deployment on Vercel, reproducible mobile builds.

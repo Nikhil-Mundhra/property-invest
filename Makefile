@@ -116,7 +116,7 @@ endef
 # $(1)=name $(2)=port. SIGTERM, then SIGKILL if still listening after ~3s. Never touches foreign processes.
 define stop_svc
 $(call find_pids,$(2)); \
-if [ -n "$$all" ] && [ -z "$$ours" ]; then echo "$(1) not running (port $(2) is held by another app — left alone)"; \
+if [ -n "$$all" ] && [ -z "$$ours" ]; then echo "$(1) not running (port $(2) is held by another app, left alone)"; \
 elif [ -z "$$ours" ]; then echo "$(1) not running"; \
 else kill $$ours; for i in 1 2 3 4 5 6; do kill -0 $$ours 2>/dev/null || break; sleep 0.5; done; \
 	kill -9 $$ours 2>/dev/null; echo "$(1) stopped"; fi

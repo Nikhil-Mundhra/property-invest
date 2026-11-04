@@ -131,7 +131,7 @@ export const de: Record<StringKey, string> = {
   'admin.users.deletedSuccess': 'Benutzerkonto erfolgreich gelöscht.',
   'admin.users.resetSuccess': 'Passwort erfolgreich zurückgesetzt.',
   'admin.active': 'Aktiv',
-  'admin.none': 'Noch nichts hier – Backend-Modul anbinden.',
+  'admin.none': 'Noch nichts hier: Backend-Modul anbinden.',
   'household.group': 'Haushalt',
   'header.language': 'Sprache',
   'header.nav.mobile': 'Schnellzugriff',

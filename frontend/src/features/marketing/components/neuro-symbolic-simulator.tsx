@@ -52,7 +52,7 @@ const SCENARIOS: Scenario[] = [
       title: 'Overly Conservative Stereotyped Allocation',
       description:
         'Recommends putting 40% into high-yield savings, 30% into short-term bonds, and 30% into low-volatility mutual funds due to conversational phrasing.',
-      flaw: 'MIT Sloan Benchmark: Less structured, non-academic prompts trigger demographic bias, producing 4%–6% less wealth at retirement ($50k–$100k loss).',
+      flaw: 'MIT Sloan Benchmark: Less structured, non-academic prompts trigger demographic bias, producing 4% to 6% less wealth at retirement ($50k to $100k loss).',
       metric: '−$78,000 projected terminal retirement wealth',
     },
     neuroSymbolic: {

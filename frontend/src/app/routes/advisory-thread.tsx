@@ -440,7 +440,7 @@ export function AdvisoryThread({ context }: { context: AdvisoryContext }) {
             })}
           </div>
         ) : (
-          !latestNotice && <p className="mt-3 text-xs text-subtle">No proposal yet — ask the copilot for a rebalancing plan.</p>
+          !latestNotice && <p className="mt-3 text-xs text-subtle">No proposal yet; ask the copilot for a rebalancing plan.</p>
         )}
 
         <div className="mt-4 flex flex-wrap gap-2">

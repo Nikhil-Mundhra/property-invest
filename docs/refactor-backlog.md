@@ -100,73 +100,73 @@ closed 2026-10-06 by 1b9dbfc (fixed before the first commit; the prefix map hold
 closed 2026-10-06 by 1b9dbfc (fixed before the first commit; no setFields in history)
 
 ### R31 · Comments (misleading) · backend/src/modules/analytics/analytics.api.ts:32 · onMarketDataRefreshed
-closed 2026-10-06 by 080f852 — the comment and backend/docs/events.md now describe in-process delivery (logged, never redelivered)
+closed 2026-10-06 by 080f852: the comment and backend/docs/events.md now describe in-process delivery (logged, never redelivered)
 
 ## Dropped
 
 ### R4 · Primitive obsession · backend/src/modules/auth/infrastructure/db/* · id string <-> ObjectId
-dropped 2026-10-04 — 7 `new ObjectId(s)` sites are plain library use, not repeated knowledge; a 1:1 wrapper adds a file hop (KISS). Revisit if id validation is needed at more than findActiveById.
+dropped 2026-10-04: 7 `new ObjectId(s)` sites are plain library use, not repeated knowledge; a 1:1 wrapper adds a file hop (KISS). Revisit if id validation is needed at more than findActiveById.
 
 ### R5 · Long parameter list · backend/src/modules/auth/infrastructure/crypto/scrypt-password-hasher.ts:14 · derive
-dropped 2026-10-04 — private helper, 2 callers; folding keyLength into scrypt options reads no better (KISS)
+dropped 2026-10-04: private helper, 2 callers; folding keyLength into scrypt options reads no better (KISS)
 
 ### R6 · Long parameter list (boolean) · backend/src/modules/auth/presentation/mappers/result-to-contract.mapper.ts:10 · toTokenPairResponse
-dropped 2026-10-04 — 1 caller; two functions to remove one flag costs more than it fixes
+dropped 2026-10-04: 1 caller; two functions to remove one flag costs more than it fixes
 
 ### R7 · Dead code · backend/src/core/registry/strategy-registry.ts · StrategyRegistry
-dropped 2026-10-04 — deliberate future seam (user direction: "think in terms of the future"; the backend file map lists it for OAuth providers). Re-check when the first OAuth provider lands; delete if still unused then.
-re-checked 2026-10-06 — still 0 callers; the market slice chose a closed ConversionMode union over the registry. Still a seam for OAuth providers and allocation strategies.
+dropped 2026-10-04: deliberate future seam (user direction: "think in terms of the future"; the backend file map lists it for OAuth providers). Re-check when the first OAuth provider lands; delete if still unused then.
+re-checked 2026-10-06: still 0 callers; the market slice chose a closed ConversionMode union over the registry. Still a seam for OAuth providers and allocation strategies.
 
 ### R8 · Dead code · backend/src/core/http/route-builder.ts:48-58 · RouteBuilder.put / patch / delete
-dropped 2026-10-04 — builder verb set kept complete for upcoming modules (same direction as R7)
+dropped 2026-10-04: builder verb set kept complete for upcoming modules (same direction as R7)
 
 ### R9 · Dead code · backend/src/core/domain/base-entity.ts, value-object.ts · BaseEntity.equals, BaseEntity.updatedAt, ValueObject.toString, ValueObject.equals
-dropped 2026-10-04 — base-class API the user asked for; ValueObject.equals pinned by backend/test/unit/auth/session.entity.test.ts:53
+dropped 2026-10-04: base-class API the user asked for; ValueObject.equals pinned by backend/test/unit/auth/session.entity.test.ts:53
 
 ### R10 · Speculative generality · backend/src/core/events/event-bus.ts, core/module/* · event subscriptions
-dropped 2026-10-04 — deliberate seam for a later outbox (documented in the backend file map); 0 subscribers today. Re-check when a second module exists.
-re-checked 2026-10-06 — analytics subscribes to market.data_refreshed (analytics.module.ts:34): the seam is in use.
+dropped 2026-10-04: deliberate seam for a later outbox (documented in the backend file map); 0 subscribers today. Re-check when a second module exists.
+re-checked 2026-10-06: analytics subscribes to market.data_refreshed (analytics.module.ts:34): the seam is in use.
 
 ### R11 · Speculative generality · backend/src/modules/auth/application/ports/* · 4 single-implementation ports
-dropped 2026-10-04 — user-approved architecture; dependency rule documented in docs/architecture/c3-backend.md (Components, Depends on)
+dropped 2026-10-04: user-approved architecture; dependency rule documented in docs/architecture/c3-backend.md (Components, Depends on)
 
 ### R12 · Speculative generality · backend/src/core/db/repository/lifecycle-hooks.ts · static onInsert/onUpdate hook registry
-dropped 2026-10-04 — user explicitly requested attachable static hooks (builder pattern)
+dropped 2026-10-04: user explicitly requested attachable static hooks (builder pattern)
 
 ### R13 · Speculative generality · backend/src/core/domain/id-generator.ts · IdGenerator
-dropped 2026-10-04 — keeps the domain off the database id type (reason stated in the file)
+dropped 2026-10-04: keeps the domain off the database id type (reason stated in the file)
 
 ### R14 · Lazy class · backend/src/modules/auth/application/use-cases/* · 5 use-case classes
-dropped 2026-10-04 — one-class-per-use-case is the approved layout
+dropped 2026-10-04: one-class-per-use-case is the approved layout
 
 ### R15 · Feature envy · backend/src/modules/auth/domain/policies/refresh-rotation.policy.ts:12 · decideRotation
-dropped 2026-10-04 — extracted on purpose as a pure policy (backend/src/modules/auth/domain/policies/refresh-rotation.policy.ts); table-tested in backend/test/unit/auth/refresh-rotation.policy.test.ts; handles a null session
+dropped 2026-10-04: extracted on purpose as a pure policy (backend/src/modules/auth/domain/policies/refresh-rotation.policy.ts); table-tested in backend/test/unit/auth/refresh-rotation.policy.test.ts; handles a null session
 
 ### R19 · Speculative generality · backend/src/modules/market/market.api.ts:92 · MarketApi.convert (+ rate-window.ts, ConvertInput)
-dropped 2026-10-06 — 0 callers today, but the finance slice (burn rate, dashboard raw + converted view) is the planned first caller and convertBatch is tested. Re-check when finance lands; delete if still unused.
+dropped 2026-10-06: 0 callers today, but the finance slice (burn rate, dashboard raw + converted view) is the planned first caller and convertBatch is tested. Re-check when finance lands; delete if still unused.
 
 ### R20 · Speculative generality · backend/src/core/http-client/http-client.ts:6 · HttpClientError.kind / .status
-dropped 2026-10-06 — kind is the transient/fatal contract the spec defines and its tests pin; the retry consumer is the next provider user. Re-check when a second provider integration lands.
+dropped 2026-10-06: kind is the transient/fatal contract the spec defines and its tests pin; the retry consumer is the next provider user. Re-check when a second provider integration lands.
 
 ### R21 · Speculative generality · backend/src/modules/analytics/analytics.api.ts:45 · markProcessed after the work
-dropped 2026-10-06 — documented preparation for a redelivering transport (backend/docs/events.md); costs one insert per refresh.
+dropped 2026-10-06: documented preparation for a redelivering transport (backend/docs/events.md); costs one insert per refresh.
 
 ### R24 · Duplicate code · `broken` invariant helper in 4 value objects
-dropped 2026-10-06 — a one-line closure per file; a shared helper adds an import and a hop for no measured gain (KISS).
+dropped 2026-10-06: a one-line closure per file; a shared helper adds an import and a hop for no measured gain (KISS).
 
 ### R27 · Duplicate code · analytics snapshot mappers (contract vs document)
-dropped 2026-10-06 — coincidence, not duplication: the wire contract and the stored document change for different reasons.
+dropped 2026-10-06: coincidence, not duplication: the wire contract and the stored document change for different reasons.
 
 ### R30 · Shotgun surgery · MarketSnapshot and Price field additions (7 and 6 files)
-dropped 2026-10-06 — inherent to the decided layering (value object, document, schema, mapper, contract); the reducible part is R18 (thin history).
+dropped 2026-10-06: inherent to the decided layering (value object, document, schema, mapper, contract); the reducible part is R18 (thin history).
 
 ### R32 · bug, not a smell · analytics/application/snapshot-inputs.ts · adjusted and raw closes mixed within one series
-dropped 2026-10-06 — fixed by 080f852 (one price basis per symbol; snapshot-inputs.test.ts).
+dropped 2026-10-06: fixed by 080f852 (one price basis per symbol; snapshot-inputs.test.ts).
 
 ### R33 · bug, not a smell · market/domain/convert.ts · one overflowing conversion threw for the whole batch
-dropped 2026-10-06 — fixed by 080f852 (out-of-range fails only its item; convert.test.ts).
+dropped 2026-10-06: fixed by 080f852 (out-of-range fails only its item; convert.test.ts).
 
 ### R34 · bug, not a smell · market/application/refresh-range.ts:16 · a tracked symbol the provider never returns forces a one-year backfill every run
-dropped 2026-10-06 — design question, not a smell: about 44 of 100 monthly Marketstack requests at worst. Open question for the user (per-symbol ranges, or excluding a symbol after a failed backfill).
+dropped 2026-10-06: design question, not a smell: about 44 of 100 monthly Marketstack requests at worst. Open question for the user (per-symbol ranges, or excluding a symbol after a failed backfill).
 
 ## Refused

@@ -22,7 +22,7 @@ export function AdvisorLifecycleSection() {
 
           <p className="mt-4 text-base leading-relaxed text-muted sm:text-lg">
             Generic conversational bots force advisors into double-entry purgatory. Syntropy AI embeds
-            directly into your firm's existing custodial and planning infrastructure—automating
+            directly into your firm's existing custodial and planning infrastructure, automating
             the entire client meeting lifecycle with strict regulatory compliance and two-way CRM integration.
           </p>
         </div>

@@ -124,7 +124,7 @@ export function HomepageHero({ onScrollTo }: HomepageHeroProps) {
                   Consumption smoothing for income shocks, glide paths, and automated ±5% drift rebalancing.
                 </p>
                 <div className="mt-3 text-xs font-medium text-muted">
-                  Erases 4%–6% demographic bias gap
+                  Erases 4% to 6% demographic bias gap
                 </div>
               </div>
             </div>

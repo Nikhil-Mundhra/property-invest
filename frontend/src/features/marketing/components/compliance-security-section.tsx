@@ -16,7 +16,7 @@ export function ComplianceSecuritySection() {
           </h2>
 
           <p className="mt-4 text-base leading-relaxed text-muted sm:text-lg">
-            In wealth management, compliance isn't a post-launch checklist—it's the primary market gatekeeper.
+            In wealth management, compliance isn't a post-launch checklist: it is the primary market gatekeeper.
             Syntropy AI is engineered from the ground up with formal neuro-symbolic guardrails and verifiable audit trails.
           </p>
         </div>
@@ -33,7 +33,7 @@ export function ComplianceSecuritySection() {
               academic glidepaths so women and non-finance users receive equal compounding equity allocations.
             </p>
             <div className="mt-4 rounded-control bg-surface-subtle p-3 text-[11px] text-subtle border border-line">
-              Eliminates the $50,000–$100,000 retirement wealth penalty identified by MIT Sloan.
+              Eliminates the $50,000 to $100,000 retirement wealth penalty identified by MIT Sloan.
             </div>
           </div>
 
