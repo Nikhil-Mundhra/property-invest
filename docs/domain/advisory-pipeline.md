@@ -41,17 +41,17 @@ flowchart LR
 ## Stages
 | # | Stage | Input | Output | Owner | Status |
 |---|---|---|---|---|---|
-| 1 | Identity and tenant scope | email, password, API key | user, session, tenant-scoped query | `backend/src/modules/auth/`; `backend/src/modules/admin/infrastructure/db/schema/admin-collections.ts` | `partial` — the tenant travels in the token and every scoped route reads it from there (no header can move a caller), but the deployment is single-tenant: signup joins the default tenant and there is no tenant provisioning |
-| 2 | Investor profiling | seven questionnaire answers | base risk score, stress band, ratios | `rules/src/profiling.rule.ts`, `contracts/src/profiling/profile-answers.contract.ts` | `partial` — pure functions with a frontend questionnaire in `frontend/src/features/profiling/profile-store.ts`; nothing persists |
-| 3 | Financial position | accounts, transactions | balances, runway months and band | `backend/src/modules/finance/` | `partial` — accounts are valued into the base currency through the market FX spot rates and both endpoints agree, but an account no rate can value is left out of the reserves (reported as `unvaluedAccountCount`) and the monthly flow fallbacks are still literals |
+| 1 | Identity and tenant scope | email, password, API key | user, session, tenant-scoped query | `backend/src/modules/auth/`; `backend/src/modules/admin/infrastructure/db/schema/admin-collections.ts` | `partial` : the tenant travels in the token and every scoped route reads it from there (no header can move a caller), but the deployment is single-tenant: signup joins the default tenant and there is no tenant provisioning |
+| 2 | Investor profiling | seven questionnaire answers | base risk score, stress band, ratios | `rules/src/profiling.rule.ts`, `contracts/src/profiling/profile-answers.contract.ts` | `partial` : pure functions with a frontend questionnaire in `frontend/src/features/profiling/profile-store.ts`; nothing persists |
+| 3 | Financial position | accounts, transactions | balances, runway months and band | `backend/src/modules/finance/` | `partial` : accounts are valued into the base currency through the market FX spot rates and both endpoints agree, but an account no rate can value is left out of the reserves (reported as `unvaluedAccountCount`) and the monthly flow fallbacks are still literals |
 | 4 | Market state | provider responses | `prices`, `fx_rates` | `backend/src/modules/market/` | `built` |
 | 5 | Risk measurement | 365 days of closes | annualized mean, volatility, covariance | `backend/src/modules/analytics/` | `built` |
-| 6 | Risk profiling | profile, runway, FX mismatch, volatilities | effective risk score | `rules/src/profiling.rule.ts` | `partial` — scoring runs in the browser; no backend reads it |
-| 7 | Portfolio construction | holdings, target weights | drift, actions, rationale | `backend/src/modules/wealth/wealth.api.ts` | `built` — actions are derived from the holdings' own drift, buys are capped at the sell proceeds, and the rationale names the holding actually rebalanced |
-| 8 | Recommendation and explanation | chat turn | reply, three-pillar rationale | `backend/src/modules/advisory/domain/llm-gateway.ts` | `built` — Gemini Generative AI adapter with dynamic fallback deriving proposal weights directly from portfolio holdings |
-| 9 | Authorisation gate | step-up assertion | permitted or refused | `backend/src/modules/wealth/infrastructure/crypto/unregistered-passkey-verifier.ts`; `contracts/src/auth/passkey.contract.ts` holds the shapes only | `partial` — `/wealth/execute` refuses every assertion (`WL_1004`): no passkey registration stores a key to verify against |
-| 10 | Execution and evidence | permitted proposal, assertion | sandbox ledger row, audit digest | `backend/src/modules/wealth/wealth.api.ts` | `partial` — the ledger row is written before the portfolio moves and each trade is checked against the recorded target, but no assertion can pass verification yet, so the route refuses every execution with `WL_1004` (stage 9) |
-| 11 | Sharing | plan snapshot, token, mask flag | public read-only plan | `backend/src/modules/sharing/` | `built` — TTL and expiry enforced; the snapshot is the sharer's rebalance proposal; holdings and amounts are redacted when privacyMasked is true |
+| 6 | Risk profiling | profile, runway, FX mismatch, volatilities | effective risk score | `rules/src/profiling.rule.ts` | `partial` : scoring runs in the browser; no backend reads it |
+| 7 | Portfolio construction | holdings, target weights | drift, actions, rationale | `backend/src/modules/wealth/wealth.api.ts` | `built` : actions are derived from the holdings' own drift, buys are capped at the sell proceeds, and the rationale names the holding actually rebalanced |
+| 8 | Recommendation and explanation | chat turn | reply, three-pillar rationale | `backend/src/modules/advisory/domain/llm-gateway.ts` | `built` : Gemini Generative AI adapter with dynamic fallback deriving proposal weights directly from portfolio holdings |
+| 9 | Authorisation gate | step-up assertion | permitted or refused | `backend/src/modules/wealth/infrastructure/crypto/unregistered-passkey-verifier.ts`; `contracts/src/auth/passkey.contract.ts` holds the shapes only | `partial` : `/wealth/execute` refuses every assertion (`WL_1004`): no passkey registration stores a key to verify against |
+| 10 | Execution and evidence | permitted proposal, assertion | sandbox ledger row, audit digest | `backend/src/modules/wealth/wealth.api.ts` | `partial` : the ledger row is written before the portfolio moves and each trade is checked against the recorded target, but no assertion can pass verification yet, so the route refuses every execution with `WL_1004` (stage 9) |
+| 11 | Sharing | plan snapshot, token, mask flag | public read-only plan | `backend/src/modules/sharing/` | `built` : TTL and expiry enforced; the snapshot is the sharer's rebalance proposal; holdings and amounts are redacted when privacyMasked is true |
 
 ## Permission tiers and rules-based guardrails
 Permission tiers are defined in `rules/src/permission-tier.rule.ts` (`TIER_0_READ`, `TIER_1_ADVISORY`, `TIER_2_SIMULATE`, `TIER_3_EXECUTE`).
@@ -64,9 +64,9 @@ The rules-based guardrail layer governs what operations and recommendations the 
 | `G_RUNWAY_FLOOR` | `TIER_1_ADVISORY`, `TIER_2_SIMULATE` | Hard Block on Risk Increase | `rules/src/burn-rate.rule.ts` checks runway; blocks risky equity allocation increases when runway is critical (<3m individual / <6m family) | Tenant-Configurable |
 | `G_DRIFT_CORRIDOR` | `TIER_1_ADVISORY`, `TIER_2_SIMULATE` | Suppress Action | 5% corridor (`rules/src/asset-class.rule.ts`); prevents rebalancing turnover when drift is within tolerance | Tenant-Configurable |
 | `G_SELF_FINANCING` | `TIER_2_SIMULATE`, `TIER_3_EXECUTE` | Hard Block | `planRebalance` in `backend/src/modules/wealth/wealth.api.ts` caps buy total at sell proceeds, ensuring self-financing execution | Platform-Invariant |
-| `G_BOND_SOLVENCY` | `TIER_1_ADVISORY`, `TIER_2_SIMULATE` | Hard Block | `rules/src/fundamental-ratios.rule.ts` checks ICR >= 3.0x and Net Debt/EBITDA <= 3.5x; reallocates failing debt into sovereign bonds | Platform-Invariant |
-| `G_VALUATION_TILT` | `TIER_1_ADVISORY`, `TIER_2_SIMULATE` | Warning / Tilt | `rules/src/fundamental-ratios.rule.ts` trims equity sleeve at 85th percentile of 5Y history and accumulates below 20th | Platform-Invariant |
-| `G_FX_MISMATCH` | `TIER_1_ADVISORY`, `TIER_2_SIMULATE` | Warning / Hedge | `rules/src/fundamental-ratios.rule.ts` flags >30% foreign revenue mismatch against liability corridors to trigger FX hedge overlay | Platform-Invariant |
+| `G_DBR_CAP` | `TIER_1_ADVISORY`, `TIER_2_SIMULATE` | Hard Block | `rules/src/uae-mortgage.rule.ts` enforces 50% maximum Debt Burden Ratio under CBUAE Circular No. 31/2013 | Platform-Invariant |
+| `G_LTV_CEILING` | `TIER_1_ADVISORY`, `TIER_2_SIMULATE` | Hard Block | `rules/src/uae-mortgage.rule.ts` enforces 50% off-plan flat cap and resident/non-resident statutory tiers | Platform-Invariant |
+| `G_VOID_HAIRCUT` | `TIER_1_ADVISORY`, `TIER_2_SIMULATE` | Warning / Underwriting | `rules/src/property-yield.rule.ts` applies 2-month void rental haircut for prudent net yield calculations | Platform-Invariant |
 | `G_FCF_PAYOUT` | `TIER_1_ADVISORY`, `TIER_2_SIMULATE` | Hard Block | Filters out dividend yield traps exceeding 90% free cash flow payout ratio | Platform-Invariant |
 
 ## Deterministic engines
@@ -74,24 +74,24 @@ Every advice-bearing number is meant to come from a pure function over stored da
 
 | Engine | Computes | Status |
 |---|---|---|
-| `createRateTable`, `convertBatch` (`backend/src/modules/market/domain/`) | direct, inverted and EUR-crossed lookup; per-item conversion with round-half-even minor units | `partial` — tested, still no caller |
+| `createRateTable`, `convertBatch` (`backend/src/modules/market/domain/`) | direct, inverted and EUR-crossed lookup; per-item conversion with round-half-even minor units | `partial` : tested, still no caller |
 | `measureSnapshot` (`backend/src/modules/analytics/domain/`) | aligned log returns, annualized mean, volatility, covariance over a 365-day window | `built` |
-| `runwayBand` (`rules/src/burn-rate.rule.ts`) | bands a months figure into `critical`, `warning`, `healthy` | `built` — computed by the finance module and served by `contracts/src/finance/cashflow.contract.ts` |
-| Burn-rate calculator (`backend/src/modules/finance/domain/burn-rate-calculator.ts`) | inflow, outflow, liquid reserves and runway from transactions, scaled by household mode | `partial` — monthly flows are averaged over the calendar months present and reserves are valued into the base currency by `finance.api.ts`, but inflow and outflow still fall back to literals when a tenant has no transactions |
-| `calculateBaseRiskScore`, `mapStressAnswerToRiskBand` (`rules/src/profiling.rule.ts`) | base 1–10 score and stress band from questionnaire answers | `partial` — runs in the frontend only |
-| Portfolio optimizer | target allocation from the effective score and covariance, with carve-outs | `fixture` — `POST /wealth/optimize` returns a fixed action list |
+| `runwayBand` (`rules/src/burn-rate.rule.ts`) | bands a months figure into `critical`, `warning`, `healthy` | `built` : computed by the finance module and served by `contracts/src/finance/cashflow.contract.ts` |
+| Burn-rate calculator (`backend/src/modules/finance/domain/burn-rate-calculator.ts`) | inflow, outflow, liquid reserves and runway from transactions, scaled by household mode | `partial` : monthly flows are averaged over the calendar months present and reserves are valued into the base currency by `finance.api.ts`, but inflow and outflow still fall back to literals when a tenant has no transactions |
+| `calculateBaseRiskScore`, `mapStressAnswerToRiskBand` (`rules/src/profiling.rule.ts`) | base 1–10 score and stress band from questionnaire answers | `partial` : runs in the frontend only |
+| Portfolio optimizer | target allocation from the effective score and covariance, with carve-outs | `fixture` : `POST /wealth/optimize` returns a fixed action list |
 
 ## Agent tools
 There is no tool registry, function-calling schema or tool dispatch in the codebase: `POST /advisory/chat` hands the whole context to the gateway. Every tool below is therefore unwired, including the two whose engine now exists.
 
 | Tool | Engine it needs | Tier | Status |
 |---|---|---|---|
-| `get_cashflow_and_runway` | burn-rate calculator | `TIER_1_ADVISORY` | `absent` — engine built, no tool |
-| `get_currency_exposure` | `convertBatch` | `TIER_0_READ` | `absent` — engine still uncalled |
-| `calculate_adaptive_portfolio` | risk profiler, optimizer | `TIER_1_ADVISORY` | `absent` — scoring runs client-side, optimizer is literal |
+| `get_cashflow_and_runway` | burn-rate calculator | `TIER_1_ADVISORY` | `absent` : engine built, no tool |
+| `get_currency_exposure` | `convertBatch` | `TIER_0_READ` | `absent` : engine still uncalled |
+| `calculate_adaptive_portfolio` | risk profiler, optimizer | `TIER_1_ADVISORY` | `absent` : scoring runs client-side, optimizer is literal |
 | `simulate_stress_test` | snapshot covariance | `TIER_2_SIMULATE` | `absent` |
-| `create_rebalance_proposal` | optimizer | `TIER_2_SIMULATE` | `absent` — route exists, no tool |
-| `execute_sandbox_trade` | sandbox ledger | `TIER_3_EXECUTE` | `absent` — route exists, no tool; every assertion refused until passkey registration exists |
+| `create_rebalance_proposal` | optimizer | `TIER_2_SIMULATE` | `absent` : route exists, no tool |
+| `execute_sandbox_trade` | sandbox ledger | `TIER_3_EXECUTE` | `absent` : route exists, no tool; every assertion refused until passkey registration exists |
 
 ## Data flow today
 ```mermaid

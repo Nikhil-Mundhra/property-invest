@@ -25,6 +25,7 @@ backend/src/core/db/connection/connection-options.ts : MongoClient options (pool
 backend/src/core/db/connection/data-store.ts : resolves mongo or memory from env; refuses memory in production
 backend/src/core/db/connection/database-health.ts : database status for /api/health (up, down, unconfigured, memory)
 backend/src/core/db/connection/mongo-client.ts : one MongoClient cached across serverless invocations
+backend/src/core/db/connection/postgres-client.ts : PostgreSQL connection pool and syntropy_documents JSONB document-store adapter
 backend/src/core/db/document-id.ts : default tenant and demo user ids; string → ObjectId for a document id or a tenant/user scope, null when unusable
 backend/src/core/db/errors/classify-db-error.ts : driver error → duplicate-key, transient or fatal
 backend/src/core/db/ids/object-id-generator.ts : IdGenerator backed by ObjectId hex strings
@@ -82,6 +83,11 @@ backend/src/modules/market/infrastructure/db/repositories/mongo-price.repository
 backend/src/modules/market/infrastructure/db/schema/fx-rates.schema.ts : fx_rates indexes (unique base+quote+date, date) and $jsonSchema
 backend/src/modules/market/infrastructure/db/schema/market-collections.ts : the market module's collection definitions
 backend/src/modules/market/infrastructure/db/schema/prices.schema.ts : prices indexes (unique symbol+date) and $jsonSchema
+backend/src/modules/properties/infrastructure/db/documents/property.document.ts : stored shape of properties
+backend/src/modules/properties/infrastructure/db/memory/memory-properties.repository.ts : properties repository in memory
+backend/src/modules/properties/infrastructure/db/repositories/mongo-properties.repository.ts : properties repository on Mongo and PostgreSQL
+backend/src/modules/properties/infrastructure/db/schema/properties-collections.ts : the properties module's collection definitions
+backend/src/modules/properties/infrastructure/db/seed/dubai-properties.seed.ts : benchmark Dubai properties for initial user auto-seeding
 backend/src/modules/sharing/infrastructure/db/documents/shared-plan.document.ts : stored shape of shared_plans
 backend/src/modules/sharing/infrastructure/db/memory/memory-sharing.repository.ts : shared plan repository in memory
 backend/src/modules/sharing/infrastructure/db/repositories/mongo-sharing.repository.ts : shared plan repository on Mongo

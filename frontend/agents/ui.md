@@ -41,6 +41,8 @@ frontend/src/components/ui/spinner.tsx : loading indicator, optionally announced
 frontend/src/components/ui/text-link.tsx : router-aware inline link
 frontend/src/components/ui/theme-toggle.test.tsx : flips the dark class and announces the next mode
 frontend/src/components/ui/theme-toggle.tsx : header control flipping .dark on <html>
+frontend/src/features/investments/components/add-property-modal.tsx : add property modal with residency status, mortgage LTV limits, and cash upfront mandate
+frontend/src/features/investments/components/property-card.tsx : property card with relative sizing, yields, and Golden Visa badges
 frontend/src/lib/chart-colors.ts : chart color class per asset class
 frontend/src/lib/cn.ts : className merge helper
 frontend/src/lib/csv-export.test.ts : RFC 4180 escaping, BOM prefix, and empty ledger serialization

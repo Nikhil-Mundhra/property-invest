@@ -45,6 +45,8 @@ backend/src/modules/auth/presentation/routes/me.routes.ts : GET /me, DELETE /me,
 backend/src/modules/finance/presentation/routes/finance.routes.ts : accounts, transactions, and cashflow summary routes
 backend/src/modules/market/presentation/mappers/result-to-contract.mapper.ts : market api results → quotes, fx-rates and refresh contracts
 backend/src/modules/market/presentation/routes/market.routes.ts : GET quotes, fx (query base, date), refresh (cron bearer)
+backend/src/modules/properties/application/ports.ts : PropertiesRepository port
+backend/src/modules/properties/presentation/routes/properties.routes.ts : /api/properties/* routes: list, create, get, update, delete, reset
 backend/src/modules/sharing/presentation/routes/sharing.routes.ts : create share token under the caller scope (auth required) and fetch public shared plan routes
 backend/src/modules/sharing/presentation/sharing-rate-limiter.ts : in-memory rate limiter middleware for public token endpoints
 backend/src/modules/wealth/presentation/routes/wealth.routes.ts : products, portfolio, optimize, sandbox trade execution, and ledger routes

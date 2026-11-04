@@ -25,6 +25,8 @@ backend/src/modules/auth/presentation/auth-error-statuses.ts : HTTP status for e
 backend/src/modules/finance/presentation/finance-error-statuses.ts : HTTP status for every FN_* code
 backend/src/modules/market/domain/errors/market-errors.ts : MK_* DomainError factories
 backend/src/modules/market/presentation/market-error-statuses.ts : HTTP status for every MK_* code
+backend/src/modules/properties/domain/errors/properties-errors.ts : PR_* DomainError factories
+backend/src/modules/properties/presentation/properties-error-statuses.ts : HTTP status for every PR_* code
 backend/src/modules/sharing/presentation/sharing-error-statuses.ts : HTTP status for every SH_* code
 backend/src/modules/wealth/presentation/wealth-error-statuses.ts : HTTP status for every WL_* code
 ```

@@ -6,6 +6,7 @@ Facts for shipping the app. Environment values live in `infra/docs/env.md`. Rout
 
 | Target | Command | Effect |
 |---|---|---|
+| Replit deployment | `npm run build && npm start` | Boots Node 22 server on port 3000, connects to PostgreSQL, initializes `syntropy_documents` store, and serves frontend |
 | Vercel production | push to `main` | Vercel builds both services from `vercel.json` and serves traffic |
 | Local production bundle | `make prod` | builds the frontend, serves SPA plus API from one Node process |
 | Local nginx front | `make proxy` | builds the SPA, serves it through nginx in front of the backend (needs Docker, plus `make backend` for the API) |

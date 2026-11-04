@@ -28,6 +28,7 @@ frontend/src/features/profiling/components/profile-summary-card.tsx : compact ri
 frontend/src/features/profiling/components/profiling-modal.tsx : dialog wrapper for the profiling wizard
 frontend/src/features/profiling/components/profiling-questionnaire.test.tsx : wizard navigation, country defaults, per-currency holdings draft auto-saving, and completion
 frontend/src/features/profiling/components/profiling-questionnaire.tsx : 7-step onboarding questionnaire with country defaults and per-currency holdings sections
+frontend/src/features/profiling/components/real-estate-onboarding-form.tsx : 3-step real estate investor onboarding form covering identity, residency, and capital goals
 frontend/src/features/profiling/lib/countries.ts : country list data provider, Unicode flag emoji generator, and search filter
 frontend/src/features/profiling/lib/currency-denominations.ts : calibrated scroll denomination tiers for AED, USD, EUR, GBP, INR, JPY, and other global currencies
 frontend/src/features/profiling/profile-store.ts : local and session storage store for resumable profiling answers, per-currency holdings, and base risk scores

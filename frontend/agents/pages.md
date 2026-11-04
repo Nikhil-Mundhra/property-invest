@@ -43,12 +43,16 @@ frontend/src/app/routes/evidence-page.test.tsx : in-browser SHA-256 verification
 frontend/src/app/routes/evidence-page.tsx : institutional evidence explorer with W3C WebAuthn verification and tamper-evident audit ledger
 frontend/src/app/routes/home-page.test.tsx : home page rendering and interactive simulation tests
 frontend/src/app/routes/home-page.tsx : market-ready homepage presenting the triad architecture, advisor OS, MIT Sloan quant rigor, knowledge graph, and interactive simulator
+frontend/src/app/routes/investments-page.tsx : investments and real estate portfolio view with owned and planned property cards
 frontend/src/app/routes/login-page.tsx : login page: highlight panel + login form; account-created notice after a partial signup
 frontend/src/app/routes/onboarding-page.test.tsx : onboarding starts without preselected risk answer and advances after selection
 frontend/src/app/routes/onboarding-page.tsx : dedicated onboarding questionnaire wizard with fresh answers for first-time signups
+frontend/src/app/routes/plan-page.tsx : 5-step property acquisition roadmap, purchasing power calculator, and real estate AI copilot
 frontend/src/app/routes/portfolio-page.test.tsx : holdings with current, target, and drift weights
 frontend/src/app/routes/portfolio-page.tsx : deep-link route wrapper rendering shared PortfolioSection
 frontend/src/app/routes/portfolio-section.tsx : shared portfolio holdings table rendered on the dashboard and as a deep link
+frontend/src/app/routes/property-detail-page.test.tsx : property detail Deal Room tests
+frontend/src/app/routes/property-detail-page.tsx : property detail Deal Room with valuation, Golden Visa check, yields, and off-plan milestone table
 frontend/src/app/routes/role-login-mismatch.test.tsx : role mismatch keeps a signed-in session, client login rejects staff creds, GuestRoute redirects role portals
 frontend/src/app/routes/root-route.test.tsx : staff redirect to their portal, acting session stays on the client dashboard, GuestRoute bounce never lands analysts on it
 frontend/src/app/routes/root-route.tsx : dual-mode root route: HomePage for anonymous visitors, staff redirect to their portal, AppShell for clients

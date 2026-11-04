@@ -22,6 +22,10 @@ frontend/src/features/auth/api/use-signup.ts : signup mutation, then login with 
 frontend/src/features/finance/api/finance-api.ts : finance endpoint calls for multi-currency accounts and cashflow
 frontend/src/features/finance/api/use-accounts.ts : multi-currency bank accounts query hook
 frontend/src/features/finance/api/use-cashflow.ts : cashflow and runway summary query hook
+frontend/src/features/investments/api/properties-api.ts : real estate properties endpoint calls typed by contracts
+frontend/src/features/investments/data/seed-properties.ts : benchmark Dubai properties data for initial state
+frontend/src/features/investments/store/properties-store.test.ts : properties external store tests
+frontend/src/features/investments/store/properties-store.ts : properties external store with optimistic updates and background backend sync
 frontend/src/features/sharing/api/sharing-api.ts : shareable plan link endpoint calls typed by contracts
 frontend/src/features/sharing/api/use-create-share-link.ts : share URL creation mutation hook
 frontend/src/features/wealth/api/use-construct-portfolio.ts : portfolio construction and multi-asset optimization mutation hook

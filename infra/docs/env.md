@@ -5,7 +5,9 @@ Backend variables are validated once, on first use, by `backend/src/core/config/
 | Var | Default | Required | Effect |
 |---|---|---|---|
 | `NODE_ENV` | `development` | no | `production` disables the ephemeral JWT key pair and makes `backend/src/node-server.ts` serve `frontend/dist`; `make prod` sets it; tests set `test` |
-| `DATA_STORE` | `mongo` when `MONGODB_URI` is set or in production, else `memory` | no | `memory` keeps data in process (lost on restart) and seeds the demo account; `memory` in production fails startup |
+| `DATABASE_URL` | none | on PostgreSQL / Replit | PostgreSQL connection URI (`postgresql://postgres:password@helium/heliumdb?sslmode=disable`); when set, `DATA_STORE` defaults to `postgres` |
+| `POSTGRES_URL` | none | alternative Postgres | alternative PostgreSQL connection URI |
+| `DATA_STORE` | `postgres` when `DATABASE_URL` is set, `mongo` when `MONGODB_URI` is set, else `memory` | no | `memory` keeps data in process (lost on restart) and seeds the demo account; `memory` in production fails startup |
 | `MONGODB_URI` | none | in production | unset in production → routes that touch the database return `CORE_DB_UNCONFIGURED`; `/api/health`, `/api/ai` and the 404 fallback work without it |
 | `MONGODB_DB_NAME` | `wealth_advisor` | no | database name |
 | `MONGODB_SERVER_SELECTION_TIMEOUT_MS` | `5000` | no | how long a connect or operation waits for a reachable server |
